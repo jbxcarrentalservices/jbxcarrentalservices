@@ -824,21 +824,35 @@ nav a{
 
 .contact-cta{
 
-    background:#000;
+    position:relative;
 
-    color:#fff;
+    padding:90px 7%;
 
     text-align:center;
 
-    padding:80px 7%;
+    color:#fff;
+
+    background:
+    linear-gradient(rgba(0,0,0,.75),rgba(0,0,0,.75)),
+    url("Images/hero-bg.jpg");
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-attachment:fixed;
 
 }
 
 .contact-cta h2{
 
-    font-size:42px;
+    font-size:48px;
+
+    font-weight:800;
 
     margin-bottom:20px;
+
+    text-shadow:0 4px 12px rgba(0,0,0,.5);
 
 }
 
@@ -846,13 +860,13 @@ nav a{
 
     max-width:700px;
 
-    margin:0 auto 40px;
+    margin:0 auto 45px;
 
-    color:#ddd;
+    color:#eee;
 
-    font-size:18px;
+    font-size:20px;
 
-    line-height:30px;
+    line-height:34px;
 
 }
 
@@ -870,15 +884,25 @@ nav a{
 
 .cta-buttons a{
 
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    min-width:220px;
+
+    padding:18px 30px;
+
+    border-radius:12px;
+
     text-decoration:none;
 
-    padding:16px 30px;
+    font-weight:700;
 
-    border-radius:10px;
-
-    font-weight:600;
-
-    transition:.3s;
+    transition:.35s;
 
 }
 
@@ -906,16 +930,16 @@ nav a{
 
 .cta-book{
 
-    background:#28a745;
+    background:#d4af37;
 
-    color:#fff;
+    color:#000;
 
 }
 
 .cta-buttons a:hover{
 
-    transform:translateY(-4px);
+    transform:translateY(-6px) scale(1.03);
 
-    box-shadow:0 10px 25px rgba(255,255,255,.15);
+    box-shadow:0 15px 35px rgba(0,0,0,.45);
 
 }
