@@ -1,0 +1,5 @@
+User-agent: *
+
+Allow: /
+
+Sitemap: https://jbxcarrentalservices.jbxcarrentalservices.workers.dev/sitemap.xml
