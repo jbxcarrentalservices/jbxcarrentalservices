@@ -391,7 +391,7 @@ footer i{
     font-size:28px;
 }
 
-/ RESPONSIVE */
+/* RESPONSIVE */
 
 @media(max-width:992px){
 
@@ -444,20 +444,61 @@ footer{
 
 @media(max-width:768px){
 
-nav{
+header{
+    padding:15px 20px;
+}
+
+.logo img{
+    height:65px;
+}
+
+.book-btn{
     display:none;
 }
 
+.hero{
+    min-height:100vh;
+    padding:120px 25px 60px;
+    background-size:cover;
+    background-position:center;
+}
+
+.hero-left{
+    width:100%;
+    text-align:center;
+}
+
+.hero-left h3{
+    font-size:18px;
+}
+
 .hero-left h1{
-    font-size:44px;
+    font-size:42px;
+    line-height:48px;
 }
 
 .hero-left p{
     font-size:18px;
+    line-height:28px;
+}
+
+.hero-left h2{
+    font-size:22px;
+    line-height:30px;
 }
 
 .buttons{
+    display:flex;
     flex-direction:column;
+    align-items:center;
+    gap:15px;
+}
+
+.call-btn,
+.msg-btn{
+    width:100%;
+    max-width:300px;
+    text-align:center;
 }
 
 .features{
@@ -470,6 +511,7 @@ nav{
 
 .car-card img{
     width:100%;
+    height:240px;
 }
 
 }
