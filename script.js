@@ -67,3 +67,17 @@ menuToggle.onclick = function(){
     nav.classList.toggle("active");
 
 }
+
+const faqs = document.querySelectorAll(".faq-question");
+
+faqs.forEach(question => {
+
+    question.addEventListener("click", () => {
+
+        const item = question.parentElement;
+
+        item.classList.toggle("active");
+
+    });
+
+});
