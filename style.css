@@ -237,8 +237,11 @@ section h2{
 }
 
 .car-card img{
-    width:55%;
-    object-fit:cover;
+    width:50%;
+    height:320px;
+    object-fit:contain;
+    background:#f7f7f7;
+    padding:15px;
 }
 
 .info{
