@@ -233,7 +233,8 @@ section h2{
 }
 
 .car-card:hover{
-    transform:translateY(-8px);
+    transform:translateY(-10px);
+    box-shadow:0 18px 40px rgba(0,0,0,.18);
 }
 
 .car-card img{
@@ -246,6 +247,8 @@ section h2{
 
 .info{
     padding:30px;
+    display:flex;
+    flex-direction:column;
 }
 
 .info h3{
@@ -271,11 +274,12 @@ section h2{
 }
 
 .price{
-    margin-top:30px;
+    margin-top:25px;
     background:#000;
     color:#fff;
     display:block;
-    width:fit-content;
+    width:100%;
+    text-align:center;
     padding:14px 22px;
     border-radius:8px;
     font-size:22px;
@@ -514,25 +518,39 @@ header{
     height:240px;
 }
 
+.info{
+    padding:22px;
+}
+
+.info h1{
+    margin:8px 0;
+}
+
+.info ul{
+    margin-top:10px;
+}
+
+.price{
+    margin-top:20px;
+}
+
 }
 
 .view-btn{
-    display:inline-block;
+    display:block;
+    width:100%;
     margin-top:15px;
-    padding:12px 20px;
+    padding:14px;
     background:#fff;
     color:#000;
     border:2px solid #000;
     border-radius:8px;
     text-decoration:none;
+    text-align:center;
     font-weight:600;
     transition:.3s;
 }
 
-.view-btn:hover{
-    background:#000;
-    color:#fff;
-}
 .view-btn:hover{
     background:#000;
     color:#fff;
@@ -629,4 +647,9 @@ nav a{
     text-align:center;
 }
 
+}
+
+.info li i{
+    width:28px;
+    color:#111;
 }
