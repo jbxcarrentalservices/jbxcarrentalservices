@@ -1,4 +1,4 @@
-{
+*{
     margin:0;
     padding:0;
     box-sizing:border-box;
@@ -23,7 +23,7 @@ header{
     width:100%;
 
     display:grid;
-    grid-template-colums:120px 1fr 180px;
+    grid-template-columns:120px 1fr 180px;
     align-items:center;
 
     padding:20px 40px;
@@ -194,7 +194,7 @@ nav a{
     transform:translateY(-10px);
 }
 
-/ SECTION TITLE /
+/* SECTION TITLE */
 
 section h2{
     text-align:center;
@@ -203,7 +203,7 @@ section h2{
     font-weight:800;
 }
 
-/ OUR CARS /
+/* OUR CARS */
 
 .cars{
     padding:80px 7%;
@@ -285,7 +285,7 @@ section h2{
     font-style:italic;
 }
 
-/ FEATURES /
+/* FEATURES */
 
 .features{
     background:#000;
@@ -304,7 +304,7 @@ section h2{
     margin-bottom:15px;
 }
 
-/ REQUIREMENTS /
+/* REQUIREMENTS */
 
 .requirements{
     display:grid;
@@ -328,7 +328,7 @@ section h2{
     font-size:20px;
 }
 
-/ LOCATION /
+/* LOCATION */
 
 .location{
     background:#000;
@@ -370,7 +370,7 @@ section h2{
     border-radius:12px;
 }
 
-/ FOOTER /
+/* FOOTER */
 
 footer{
     background:#000;
