@@ -526,3 +526,28 @@ nav{
     font-size:50px;
     cursor:pointer;
 }
+
+.prev,
+.next{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    color:#fff;
+    font-size:55px;
+    cursor:pointer;
+    user-select:none;
+    padding:15px;
+}
+
+.prev{
+    left:30px;
+}
+
+.next{
+    right:30px;
+}
+
+.prev:hover,
+.next:hover{
+    color:#ccc;
+}
