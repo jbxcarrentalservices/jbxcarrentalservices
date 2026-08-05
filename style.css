@@ -534,6 +534,36 @@ header{
     margin-top:20px;
 }
 
+.contact-cta{
+
+    padding:60px 20px;
+
+}
+
+.contact-cta h2{
+
+    font-size:32px;
+
+}
+
+.contact-cta p{
+
+    font-size:16px;
+
+}
+
+.cta-buttons{
+
+    flex-direction:column;
+
+}
+
+.cta-buttons a{
+
+    width:100%;
+
+}
+    
 }
 
 .view-btn{
@@ -788,4 +818,104 @@ nav a{
 
 .faq-item.active .faq-answer{
     display:block;
+}
+
+/* CONTACT CTA */
+
+.contact-cta{
+
+    background:#000;
+
+    color:#fff;
+
+    text-align:center;
+
+    padding:80px 7%;
+
+}
+
+.contact-cta h2{
+
+    font-size:42px;
+
+    margin-bottom:20px;
+
+}
+
+.contact-cta p{
+
+    max-width:700px;
+
+    margin:0 auto 40px;
+
+    color:#ddd;
+
+    font-size:18px;
+
+    line-height:30px;
+
+}
+
+.cta-buttons{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:20px;
+
+    flex-wrap:wrap;
+
+}
+
+.cta-buttons a{
+
+    text-decoration:none;
+
+    padding:16px 30px;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.cta-buttons i{
+
+    margin-right:10px;
+
+}
+
+.cta-call{
+
+    background:#fff;
+
+    color:#000;
+
+}
+
+.cta-message{
+
+    background:#0084ff;
+
+    color:#fff;
+
+}
+
+.cta-book{
+
+    background:#28a745;
+
+    color:#fff;
+
+}
+
+.cta-buttons a:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 10px 25px rgba(255,255,255,.15);
+
 }
