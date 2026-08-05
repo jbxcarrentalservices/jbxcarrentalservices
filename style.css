@@ -653,3 +653,67 @@ nav a{
     width:28px;
     color:#111;
 }
+
+/* FLOATING MESSENGER */
+
+.floating-chat{
+
+    position:fixed;
+
+    bottom:25px;
+
+    right:25px;
+
+    width:65px;
+
+    height:65px;
+
+    background:#0084ff;
+
+    color:#fff;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:34px;
+
+    text-decoration:none;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
+
+    z-index:9999;
+
+    transition:.3s;
+
+}
+
+.floating-chat:hover{
+
+    transform:scale(1.1);
+
+    background:#006fe6;
+
+}
+
+@media(max-width:768px){
+
+.floating-chat{
+
+    width:60px;
+
+    height:60px;
+
+    font-size:30px;
+
+    bottom:20px;
+
+    right:20px;
+
+}
+
+}
