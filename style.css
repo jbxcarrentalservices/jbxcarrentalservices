@@ -551,3 +551,40 @@ nav{
 .next:hover{
     color:#ccc;
 }
+
+/* MOBILE MENU */
+
+.menu-toggle{
+    display:none;
+    font-size:30px;
+    color:#fff;
+    cursor:pointer;
+}
+
+@media (max-width:768px){
+
+.menu-toggle{
+    display:block;
+}
+
+nav{
+    display:none;
+    position:absolute;
+    top:100%;
+    left:0;
+    width:100%;
+    background:#000;
+    flex-direction:column;
+    padding:20px 0;
+}
+
+nav.active{
+    display:flex;
+}
+
+nav a{
+    padding:15px;
+    text-align:center;
+}
+
+}
