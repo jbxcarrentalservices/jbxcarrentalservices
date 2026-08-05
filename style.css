@@ -495,3 +495,34 @@ nav{
     background:#000;
     color:#fff;
 }
+
+/* POPUP */
+
+.popup{
+    display:none;
+    position:fixed;
+    z-index:9999;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,.85);
+    justify-content:center;
+    align-items:center;
+}
+
+.popup img{
+    max-width:85%;
+    max-height:85%;
+    border-radius:12px;
+    box-shadow:0 10px 30px rgba(0,0,0,.6);
+}
+
+.close{
+    position:absolute;
+    top:30px;
+    right:40px;
+    color:#fff;
+    font-size:50px;
+    cursor:pointer;
+}
