@@ -107,6 +107,8 @@ document.getElementById("sumDays").textContent =
 
 const rentalFee = rate * rentalDays;
 
+const carWashFee = CONFIG.carWashFee;
+
 document.getElementById("sumRentalFee").textContent =
     "₱" + rentalFee.toLocaleString();
 
