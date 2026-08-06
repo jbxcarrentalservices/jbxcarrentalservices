@@ -1,141 +1,176 @@
-const vehicleRates = {
-    vios: 1800,
-    xpander: 2500
-};
+// Rates by vehicle and province group
 
-const destinationFees = {
-    "Metro Manila": 0,
-    "Cavite": 300,
-    "Laguna": 500,
-    "Batangas": 800,
-    "Quezon": 1000,
-    "Bulacan": 500,
-    "Pampanga": 700
-};
+const rateGroups = {
 
-const provinces = {
-
-    "Metro Manila":[
-        "Taguig",
-        "Makati",
-        "Parañaque",
-        "Pasig",
-        "Quezon City"
+    groupA: [
+        "Metro Manila","Batangas","Cavite","Rizal","Pampanga",
+        "Bataan","Tarlac","Nueva Ecija","Bulacan",
+        "Laguna","Zambales","Aurora"
     ],
 
-    "Cavite":[
-        "Bacoor",
-        "Imus",
-        "Dasmariñas",
-        "Tagaytay"
+    groupB: [
+        "Pangasinan","Nueva Vizcaya","Quirino",
+        "La Union","Benguet","Quezon","Camarines Norte"
     ],
 
-    "Laguna":[
-        "Biñan",
-        "Santa Rosa",
-        "Calamba",
-        "San Pablo"
+    groupC: [
+        "Ilocos Sur","Ifugao","Mountain Province",
+        "Isabela","Abra","Kalinga","Camarines Sur"
     ],
 
-    "Batangas":[
-        "Lipa",
-        "Batangas City",
-        "Nasugbu",
-        "Lemery"
-    ],
-
-    "Quezon":[
-        "Lucena",
-        "Sariaya",
-        "Tayabas"
-    ],
-
-    "Bulacan":[
-        "Malolos",
-        "Meycauayan",
-        "Baliuag"
-    ],
-
-    "Pampanga":[
-        "San Fernando",
-        "Angeles",
-        "Mabalacat"
+    groupD: [
+        "Ilocos Norte","Apayao","Cagayan",
+        "Albay","Sorsogon"
     ]
 
 };
 
+const prices = {
+
+    vios: {
+        regular: {
+            groupA:1800,
+            groupB:2300,
+            groupC:2500,
+            groupD:3000
+        },
+        half:1300
+    },
+
+    xpander: {
+        regular: {
+            groupA:2500,
+            groupB:3000,
+            groupC:3200,
+            groupD:3700
+        },
+        half:1700
+    }
+
+};
+
+const halfDayAllowed = [
+    "Metro Manila","Batangas","Cavite","Rizal",
+    "Pampanga","Bataan","Tarlac",
+    "Nueva Ecija","Bulacan","Laguna"
+];
+
 const vehicle = document.getElementById("vehicle");
+const rentalType = document.getElementById("rentalType");
 const pickup = document.getElementById("pickupDate");
 const returnDate = document.getElementById("returnDate");
 const province = document.getElementById("province");
-const city = document.getElementById("city");
 
 vehicle.addEventListener("change", updateSummary);
+rentalType.addEventListener("change", updateSummary);
 pickup.addEventListener("change", updateSummary);
 returnDate.addEventListener("change", updateSummary);
-province.addEventListener("change", updateCities);
+province.addEventListener("change", updateSummary);
 
-function updateCities(){
+function getProvinceGroup(place){
 
-    city.innerHTML="";
+    for(const group in rateGroups){
 
-    if(provinces[province.value]){
+        if(rateGroups[group].includes(place)){
 
-        provinces[province.value].forEach(place=>{
+            return group;
 
-            let option=document.createElement("option");
-
-            option.text=place;
-
-            city.add(option);
-
-        });
+        }
 
     }
 
-    updateSummary();
+    return null;
 
 }
 
 function updateSummary(){
 
-    document.getElementById("sumVehicle").innerHTML=
-    vehicle.options[vehicle.selectedIndex].text;
+    const group = getProvinceGroup(province.value);
 
-    let rate=vehicleRates[vehicle.value];
+    let rate = 0;
+    let days = 1;
+    let warning = "";
 
-    document.getElementById("sumRate").innerHTML=
-    "₱"+rate.toLocaleString();
+    if(rentalType.value==="regular"){
 
-    let days=0;
+        if(group){
 
-    if(pickup.value && returnDate.value){
+            rate = prices[vehicle.value].regular[group];
 
-        const start=new Date(pickup.value);
+        }
 
-        const end=new Date(returnDate.value);
+        if(pickup.value && returnDate.value){
 
-        days=Math.ceil((end-start)/(1000*60*60*24));
+            const start = new Date(pickup.value);
 
-        if(days<1){
-            days=1;
+            const end = new Date(returnDate.value);
+
+            days = Math.ceil((end-start)/(1000*60*60*24));
+
+            if(days<1){
+
+                days=1;
+
+            }
+
         }
 
     }
 
-    document.getElementById("sumDays").innerHTML=days;
+    if(rentalType.value==="half"){
 
-    let destinationFee=
-    destinationFees[province.value] || 0;
+        days = 1;
 
-    document.getElementById("sumDestination").innerHTML=
-    "₱"+destinationFee.toLocaleString();
+        if(!halfDayAllowed.includes(province.value)){
 
-    let total=(rate*days)+destinationFee;
+            warning =
+            "Half-day rentals are only available for selected nearby provinces.";
 
-    document.getElementById("sumTotal").innerHTML=
-    "₱"+total.toLocaleString();
+            rate = 0;
+
+        }else{
+
+            const selectedDate = new Date(pickup.value);
+
+            if(pickup.value){
+
+                const day = selectedDate.getDay();
+
+                if(day===0 || day===6){
+
+                    warning =
+                    "Half-day rentals are only available on weekdays.";
+
+                    rate = 0;
+
+                }else{
+
+                    rate = prices[vehicle.value].half;
+
+                }
+
+            }
+
+        }
+
+    }
+
+    document.getElementById("sumVehicle").innerHTML =
+        vehicle.options[vehicle.selectedIndex].text;
+
+    document.getElementById("sumDays").innerHTML = days;
+
+    document.getElementById("sumRate").innerHTML =
+        "₱"+rate.toLocaleString();
+
+    document.getElementById("sumDestination").innerHTML =
+        province.value || "-";
+
+    document.getElementById("sumTotal").innerHTML =
+        "₱"+(rate*days).toLocaleString();
+
+    document.getElementById("bookingWarning").innerHTML =
+        warning;
 
 }
-
 updateSummary();
