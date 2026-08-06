@@ -75,45 +75,6 @@ const groupD=[
 "Sorsogon"
 ];
 
-/* ===========================
-   DESTINATION GROUPS
-=========================== */
-
-const groupA=[
-"Metro Manila","Batangas","Cavite","Rizal",
-"Pampanga","Bataan","Tarlac",
-"Nueva Ecija","Bulacan","Laguna",
-"Zambales","Aurora"
-];
-
-const groupB=[
-"Pangasinan",
-"Nueva Vizcaya",
-"Quirino",
-"La Union",
-"Benguet",
-"Quezon",
-"Camarines Norte"
-];
-
-const groupC=[
-"Ilocos Sur",
-"Ifugao",
-"Mountain Province",
-"Isabela",
-"Abra",
-"Kalinga",
-"Camarines Sur"
-];
-
-const groupD=[
-"Ilocos Norte",
-"Apayao",
-"Cagayan",
-"Albay",
-"Sorsogon"
-];
-
 function getRate(vehicle, rentalType, province){
 
     if(rentalType=="half"){
