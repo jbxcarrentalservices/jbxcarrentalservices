@@ -1,8 +1,8 @@
-/* ======================================
-   JBX BOOKING PAGE
-====================================== */
+/* ==========================================
+   JBX BOOKING SYSTEM
+========================================== */
 
-/* ---------- STEP WIZARD ---------- */
+// ---------- STEP WIZARD ----------
 
 let currentStep = 1;
 
@@ -23,229 +23,281 @@ function showStep(step){
 
 }
 
-showStep(1);
-
-/* ---------- BUTTONS ---------- */
-
-document.getElementById("next1").onclick=()=>{
+document.getElementById("next1").onclick=function(){
 
     currentStep=2;
-
     showStep(currentStep);
 
 };
 
-document.getElementById("back1").onclick=()=>{
+document.getElementById("back1").onclick=function(){
 
     currentStep=1;
-
     showStep(currentStep);
 
 };
 
-document.getElementById("next2").onclick=()=>{
+document.getElementById("next2").onclick=function(){
 
     currentStep=3;
-
     showStep(currentStep);
+
+    calculateBooking();
 
 };
 
-document.getElementById("back2").onclick=()=>{
+document.getElementById("back2").onclick=function(){
 
     currentStep=2;
-
     showStep(currentStep);
 
 };
 
-/* ======================================
-   MAIN CALCULATOR
-====================================== */
+showStep(1);
 
-function calculateBooking(){
+// ---------- DELIVERY SECTION ----------
 
-    /* VEHICLE */
+function toggleDeliverySection(){
 
-    const vehicle =
-        document.getElementById("vehicle").value;
+    const method=document.getElementById("deliveryMethod").value;
 
-    const rentalType =
-        document.getElementById("rentalType").value;
+    const section=document.getElementById("deliverySection");
 
-    const province =
-        document.getElementById("province").value;
+    if(method==="delivery"){
 
-    const rate =
-        getRentalRate(vehicle,rentalType,province);
+        section.style.display="block";
 
-    /* DATES */
+    }else{
 
-    const pickupDate =
-        document.getElementById("pickupDate").value;
-
-    const returnDate =
-        document.getElementById("returnDate").value;
-
-    let rentalDays = 0;
-
-    if(pickupDate && returnDate){
-
-        const start = new Date(pickupDate);
-
-        const end = new Date(returnDate);
-
-        rentalDays = Math.ceil(
-            (end-start)/(1000*60*60*24)
-        );
-
-        if(rentalDays < 1){
-
-            rentalDays = 1;
-
-        }
+        section.style.display="none";
 
     }
 
-    /* RENTAL */
+}
 
-    const rentalFee =
-        rentalDays * rate;
+document
+.getElementById("deliveryMethod")
+.addEventListener("change",toggleDeliverySection);
 
-    /* DELIVERY */
+toggleDeliverySection();
 
-    const deliveryMethod =
-        document.getElementById("deliveryMethod").value;
+// ---------- RENTAL DAYS ----------
 
-    const deliveryCity =
-        document.getElementById("deliveryCity").value;
+function getRentalDays(){
 
-    const pickupMethod =
-        document.getElementById("pickupMethod").value;
+    const pickup=document.getElementById("pickupDate").value;
 
-    const pickupCity =
-        document.getElementById("pickupCity").value;
+    const ret=document.getElementById("returnDate").value;
 
-    const deliveryFee =
+    if(!pickup || !ret){
+
+        return 0;
+
+    }
+
+    const start=new Date(pickup);
+
+    const end=new Date(ret);
+
+    let days=Math.ceil(
+
+        (end-start)/(1000*60*60*24)
+
+    );
+
+    if(days<1){
+
+        days=1;
+
+    }
+
+    return days;
+
+}
+
+// ---------- BOOKING CALCULATOR ----------
+
+function calculateBooking(){
+
+    const vehicle=
+        document.getElementById("vehicle").value;
+
+    const rentalType=
+        document.getElementById("rentalType").value;
+
+    const province=
+        document.getElementById("province").value;
+
+    const rate=
+        getRentalRate(
+            vehicle,
+            rentalType,
+            province
+        );
+
+    const days=getRentalDays();
+
+    const rentalFee=rate*days;
+
+    const deliveryFee=
         calculateDeliveryFee(
-            deliveryMethod,
-            deliveryCity
+
+            document.getElementById("deliveryMethod").value,
+
+            document.getElementById("deliveryCity").value
+
         );
 
-    const pickupFee =
+    const pickupFee=
         calculatePickupFee(
-            pickupMethod,
-            pickupCity
+
+            document.getElementById("pickupMethod").value,
+
+            document.getElementById("pickupCity").value
+
         );
 
-    /* OTHER FEES */
+    const lateNightFee=
 
-    const carWashFee =
-        CONFIG.carWashFee;
+        calculateLateNightFee(
 
-    const lateNightFee = 0;
+            document.getElementById("pickupTime").value
 
-    /* TOTAL */
+        );
 
-    const total =
-        rentalFee +
-        deliveryFee +
-        pickupFee +
-        carWashFee +
+    const total=
+
+        rentalFee+
+
+        deliveryFee+
+
+        pickupFee+
+
+        CONFIG.carWashFee+
+
         lateNightFee;
 
-    /* SUMMARY */
+    // ---------- SUMMARY ----------
 
-    document.getElementById("sumVehicle").textContent =
+    document.getElementById("sumVehicle").textContent=
+
         VEHICLES[vehicle].name;
 
-    document.getElementById("sumRental").textContent =
-        rentalType=="half"
-        ? "Half Day (12 Hours)"
-        : "Regular (24 Hours)";
+    document.getElementById("sumRental").textContent=
 
-    document.getElementById("sumDestination").textContent =
+        rentalType==="half"
+
+        ?
+
+        "Half Day (12 Hours)"
+
+        :
+
+        "Regular (24 Hours)";
+
+    document.getElementById("sumDestination").textContent=
+
         province || "-";
 
-    document.getElementById("sumDays").textContent =
-        rentalDays;
+    document.getElementById("sumDays").textContent=
 
-    document.getElementById("sumRentalFee").textContent =
+        days;
+
+    document.getElementById("sumRentalFee").textContent=
+
         "₱"+rentalFee.toLocaleString();
 
-    document.getElementById("sumCarWash").textContent =
-        "₱"+carWashFee.toLocaleString();
+    document.getElementById("sumDelivery").textContent=
 
-    document.getElementById("sumDelivery").textContent =
         "₱"+deliveryFee.toLocaleString();
 
-    document.getElementById("sumPickup").textContent =
+    document.getElementById("sumPickup").textContent=
+
         "₱"+pickupFee.toLocaleString();
 
-    document.getElementById("sumLateNight").textContent =
+    document.getElementById("sumCarWash").textContent=
+
+        "₱"+CONFIG.carWashFee.toLocaleString();
+
+    document.getElementById("sumLateNight").textContent=
+
         "₱"+lateNightFee.toLocaleString();
 
-    document.getElementById("sumTotal").textContent =
+    document.getElementById("sumTotal").textContent=
+
         "₱"+total.toLocaleString();
 
 }
 
-/* ======================================
-   EVENT LISTENERS
-====================================== */
+// ---------- LIVE UPDATE ----------
 
-[
+const fields=[
+
 "vehicle",
 "rentalType",
 "province",
 "pickupDate",
 "returnDate",
 "pickupTime",
-"returnTime",
 "deliveryMethod",
 "deliveryCity",
 "pickupMethod",
 "pickupCity"
 
-].forEach(id=>{
+];
 
-    const element=document.getElementById(id);
+fields.forEach(id=>{
 
-    if(element){
+    const el=document.getElementById(id);
 
-        element.addEventListener("change",calculateBooking);
+    if(el){
+
+        el.addEventListener("change",calculateBooking);
 
     }
 
 });
 
-/* ======================================
-   INITIAL LOAD
-====================================== */
+// ---------- MESSENGER BOOKING ----------
+
+document.getElementById("bookMessenger").onclick=function(){
+
+    calculateBooking();
+
+    const message=
+
+`Hello JBX Car Rental!
+
+I'd like to book a vehicle.
+
+Vehicle: ${VEHICLES[document.getElementById("vehicle").value].name}
+
+Rental Type: ${document.getElementById("rentalType").value}
+
+Pickup Date: ${document.getElementById("pickupDate").value}
+
+Return Date: ${document.getElementById("returnDate").value}
+
+Destination: ${document.getElementById("province").value}
+
+Estimated Total: ${document.getElementById("sumTotal").textContent}
+
+Name: ${document.getElementById("customerName").value}
+
+Contact Number: ${document.getElementById("customerPhone").value}`;
+
+    window.open(
+
+"https://m.me/YOUR_FACEBOOK_PAGE_USERNAME?text="+
+
+encodeURIComponent(message),
+
+"_blank"
+
+);
+
+};
+
+// ---------- INITIAL LOAD ----------
 
 calculateBooking();
-
-function toggleDeliverySection(){
-
-    const deliveryMethod =
-        document.getElementById("deliveryMethod").value;
-
-    const section =
-        document.getElementById("deliverySection");
-
-    if(deliveryMethod === "delivery"){
-
-        section.style.display = "block";
-
-    }else{
-
-        section.style.display = "none";
-
-    }
-
-}
-
-document.getElementById("deliveryMethod")
-    .addEventListener("change", toggleDeliverySection);
-
-toggleDeliverySection();
