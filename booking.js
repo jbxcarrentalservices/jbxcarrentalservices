@@ -224,3 +224,28 @@ function calculateBooking(){
 ====================================== */
 
 calculateBooking();
+
+function toggleDeliverySection(){
+
+    const deliveryMethod =
+        document.getElementById("deliveryMethod").value;
+
+    const section =
+        document.getElementById("deliverySection");
+
+    if(deliveryMethod === "delivery"){
+
+        section.style.display = "block";
+
+    }else{
+
+        section.style.display = "none";
+
+    }
+
+}
+
+document.getElementById("deliveryMethod")
+    .addEventListener("change", toggleDeliverySection);
+
+toggleDeliverySection();
