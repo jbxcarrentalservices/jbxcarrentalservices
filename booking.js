@@ -107,21 +107,62 @@ document.getElementById("sumDays").textContent =
 
 const rentalFee = rate * rentalDays;
 
-const carWashFee = CONFIG.carWashFee;
+const deliveryMethod =
+    document.getElementById("deliveryMethod").value;
+
+const deliveryCity =
+    document.getElementById("deliveryCity").value;
+
+const pickupMethod =
+    document.getElementById("pickupMethod").value;
+
+const pickupCity =
+    document.getElementById("pickupCity").value;
+
+const deliveryFee =
+    calculateDeliveryFee(deliveryMethod, deliveryCity);
+
+const pickupFee =
+    calculatePickupFee(pickupMethod, pickupCity);
+
+const carWashFee =
+    CONFIG.carWashFee;
+
+const lateNightFee = 0;
+
+const total =
+    rentalFee +
+    deliveryFee +
+    pickupFee +
+    carWashFee +
+    lateNightFee;
 
 document.getElementById("sumRentalFee").textContent =
     "₱" + rentalFee.toLocaleString();
 
-}
+document.getElementById("sumCarWash").textContent =
+    "₱" + carWashFee.toLocaleString();
 
-document.getElementById("vehicle").onchange=calculateBooking;
+document.getElementById("sumDelivery").textContent =
+    "₱" + deliveryFee.toLocaleString();
 
-document.getElementById("rentalType").onchange=calculateBooking;
+document.getElementById("sumPickup").textContent =
+    "₱" + pickupFee.toLocaleString();
 
-document.getElementById("province").onchange=calculateBooking;
+document.getElementById("sumLateNight").textContent =
+    "₱" + lateNightFee.toLocaleString();
 
-document.getElementById("pickupDate").onchange =
+document.getElementById("sumTotal").textContent =
+    "₱" + total.toLocaleString();
+
+document.getElementById("deliveryMethod").onchange =
     calculateBooking;
 
-document.getElementById("returnDate").onchange =
+document.getElementById("deliveryCity").onchange =
+    calculateBooking;
+
+document.getElementById("pickupMethod").onchange =
+    calculateBooking;
+
+document.getElementById("pickupCity").onchange =
     calculateBooking;
