@@ -118,11 +118,17 @@ Half Day (12 Hours)
 
 <label>Pickup Date</label>
 
-<input type="date" id="pickupDate">
+<input
+type="date"
+id="pickupDate"
+required>
 
 <label>Return Date</label>
 
-<input type="date" id="returnDate">
+<input
+type="date"
+id="returnDate"
+required>
 
 <label>Pickup Time</label>
 
@@ -289,19 +295,33 @@ Pick Up From My Location
 
 <label>Full Name</label>
 
-<input type="text" id="customerName">
+<input
+type="text"
+id="customerName"
+placeholder="Juan Dela Cruz"
+required>
 
 <label>Mobile Number</label>
 
-<input type="tel" id="customerPhone">
-
+<input
+type="tel"
+id="customerPhone"
+placeholder="09XXXXXXXXX"
+required>
+  
 <label>Email</label>
 
-<input type="email" id="customerEmail">
-
+<input
+type="email"
+id="customerEmail"
+placeholder="example@email.com">
 <label>Driver's License Number</label>
 
-<input type="text" id="licenseNumber">
+<input
+type="text"
+id="licenseNumber"
+placeholder="N01-23-456789"
+required>
 
 <div class="step-buttons">
 
@@ -322,6 +342,8 @@ Next →
 </div>
 
 <!-- STEP 3 -->
+
+<div class="step" id="step3">
 
 <div class="summary-card">
 
@@ -376,11 +398,21 @@ Late Night Fee
 
 <hr>
 
-<h2 class="total-row">
+<h2 class="total-row final-total">
 Estimated Total
 <span id="sumTotal">₱0</span>
 </h2>
 
+<p class="booking-note">
+
+*Estimated rates only.
+
+Final quotation may change depending on
+actual delivery distance, toll fees,
+parking fees, and special requests.
+
+</p>
+  
 <button
 type="button"
 id="bookMessenger"
@@ -403,3 +435,17 @@ Book via Messenger
 </div>
 
 </div>
+
+</div> <!-- summary-card -->
+
+</div> <!-- step3 -->
+
+</form>
+
+</section>
+
+<script src="pricing.js"></script>
+<script src="booking.js"></script>
+
+</body>
+</html>
