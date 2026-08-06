@@ -14,6 +14,8 @@ const CONFIG={
 
     perKmCharge:25
 
+    carWashFee:200
+
 };
 
 /* ======================================
