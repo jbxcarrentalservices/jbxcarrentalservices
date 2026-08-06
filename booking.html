@@ -200,23 +200,118 @@ Next →
 
 <div class="step" id="step2">
 
-<h2>Delivery & Customer Information</h2>
+<h2>Delivery & Pickup</h2>
 
-<p>Coming next...</p>
+<label>Vehicle Handover</label>
+
+<select id="deliveryMethod">
+
+<option value="pickup">
+I'll Pick Up the Vehicle
+</option>
+
+<option value="delivery">
+Deliver to My Location
+</option>
+
+</select>
+
+<div id="deliverySection">
+
+<label>Delivery City</label>
+
+<select id="deliveryCity">
+
+<option value="">Select City</option>
+
+<option>Parañaque</option>
+<option>Taguig</option>
+<option>Muntinlupa</option>
+<option>Pasay</option>
+<option>Las Piñas</option>
+<option>Makati</option>
+<option>Pateros</option>
+<option>Taytay</option>
+<option>Manila</option>
+<option>Cainta</option>
+<option>Quezon City</option>
+
+<option>Other Location</option>
+
+</select>
+
+<label>Exact Delivery Address</label>
+
+<input
+type="text"
+id="deliveryAddress"
+placeholder="Complete delivery address">
+
+</div>
+
+<label style="margin-top:30px;">Vehicle Return</label>
+
+<select id="pickupMethod">
+
+<option value="return">
+I'll Return the Vehicle
+</option>
+
+<option value="pickup">
+Pick Up From My Location
+</option>
+
+</select>
+
+<label>Pickup City</label>
+
+<select id="pickupCity">
+
+<option value="">Select City</option>
+
+<option>Parañaque</option>
+<option>Taguig</option>
+<option>Muntinlupa</option>
+<option>Pasay</option>
+<option>Las Piñas</option>
+<option>Makati</option>
+<option>Pateros</option>
+<option>Taytay</option>
+<option>Manila</option>
+<option>Cainta</option>
+<option>Quezon City</option>
+
+<option>Other Location</option>
+
+</select>
+
+<h2 style="margin-top:40px;">Customer Information</h2>
+
+<label>Full Name</label>
+
+<input type="text" id="customerName">
+
+<label>Mobile Number</label>
+
+<input type="tel" id="customerPhone">
+
+<label>Email</label>
+
+<input type="email" id="customerEmail">
+
+<label>Driver's License Number</label>
+
+<input type="text" id="licenseNumber">
 
 <div class="step-buttons">
 
-<button
-type="button"
-id="back1">
+<button type="button" id="back1">
 
 ← Back
 
 </button>
 
-<button
-type="button"
-id="next2">
+<button type="button" id="next2">
 
 Next →
 
@@ -230,9 +325,130 @@ Next →
 
 <div class="step" id="step3">
 
-<h2>Review Booking</h2>
+<h2>Booking Summary</h2>
 
-<p>Coming next...</p>
+<div class="summary-card">
+
+<p>
+
+Vehicle
+
+<span id="sumVehicle">
+
+-
+
+</span>
+
+</p>
+
+<p>
+
+Rental Type
+
+<span id="sumRental">
+
+-
+
+</span>
+
+</p>
+
+<p>
+
+Destination
+
+<span id="sumDestination">
+
+-
+
+</span>
+
+</p>
+
+<p>
+
+Rental Days
+
+<span id="sumDays">
+
+-
+
+</span>
+
+</p>
+
+<p>
+
+Rental Fee
+
+<span id="sumRentalFee">
+
+₱0
+
+</span>
+
+</p>
+
+<p>
+
+Delivery Fee
+
+<span id="sumDelivery">
+
+₱0
+
+</span>
+
+</p>
+
+<p>
+
+Pickup Fee
+
+<span id="sumPickup">
+
+₱0
+
+</span>
+
+</p>
+
+<p>
+
+Late Night Fee
+
+<span id="sumLateNight">
+
+₱0
+
+</span>
+
+</p>
+
+<hr>
+
+<h2>
+
+Estimated Total
+
+<span id="sumTotal">
+
+₱0
+
+</span>
+
+</h2>
+
+<button
+type="button"
+id="bookMessenger"
+class="book-messenger">
+
+<i class="fa-brands fa-facebook-messenger"></i>
+
+Book via Messenger
+
+</button>
 
 <div class="step-buttons">
 
@@ -244,13 +460,9 @@ id="back2">
 
 </button>
 
-<button
-type="button"
-id="bookMessenger">
+</div>
 
-Book via Messenger
-
-</button>
+</div>
 
 </div>
 
