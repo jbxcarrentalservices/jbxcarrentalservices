@@ -198,3 +198,23 @@ function getDeliveryFee(city){
     return DELIVERY[city] || 0;
 
 }
+
+function calculateDeliveryFee(method, city){
+
+    if(method !== "delivery"){
+        return 0;
+    }
+
+    return getDeliveryFee(city);
+
+}
+
+function calculatePickupFee(method, city){
+
+    if(method !== "pickup"){
+        return 0;
+    }
+
+    return getDeliveryFee(city);
+
+}
