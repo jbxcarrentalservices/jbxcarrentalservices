@@ -1,82 +1,57 @@
-/* ======================================
-   JBX CAR RENTAL CONFIGURATION
-====================================== */
+/* ==========================================
+   JBX CAR RENTAL SERVICES
+   PRICING CONFIGURATION
+========================================== */
 
-const CONFIG={
-
-    businessName:"JBX Car Rental Services",
-
-    messengerURL:"https://m.me/JBXCarRentalServices",
-
-    officeAddress:"Perpetual Village, Brgy. Bagong Tanyag, Taguig City",
-
-    nightCharge:100,
-
-    perKmCharge:25
-
-    carWashFee:200
-
+const CONFIG = {
+    carWashFee: 200,
+    lateNightFee: 100
 };
 
-/* ======================================
+/* ==========================================
    VEHICLES
-====================================== */
+========================================== */
 
-const VEHICLES={
+const VEHICLES = {
 
-    vios:{
+    vios: {
 
-        name:"Toyota Vios XLE AT",
+        name: "Toyota Vios XLE AT (5-Seater)",
 
-        seats:5,
+        halfDay: 1300,
 
-        halfDay:1300,
-
-        regular:{
-
-            groupA:1800,
-
-            groupB:2300,
-
-            groupC:2500,
-
-            groupD:3000
-
+        regular: {
+            groupA: 1800,
+            groupB: 2300,
+            groupC: 2500,
+            groupD: 3000
         }
 
     },
 
-    xpander:{
+    xpander: {
 
-        name:"Mitsubishi Xpander GLX AT",
+        name: "Mitsubishi Xpander GLX AT (7-Seater)",
 
-        seats:7,
+        halfDay: 1700,
 
-        halfDay:1700,
-
-        regular:{
-
-            groupA:2500,
-
-            groupB:3000,
-
-            groupC:3200,
-
-            groupD:3700
-
+        regular: {
+            groupA: 2500,
+            groupB: 3000,
+            groupC: 3200,
+            groupD: 3700
         }
 
     }
 
 };
 
-/* ======================================
+/* ==========================================
    DESTINATION GROUPS
-====================================== */
+========================================== */
 
-const GROUPS={
+const groupA = [
 
-groupA:[
 "Metro Manila",
 "Batangas",
 "Cavite",
@@ -89,9 +64,11 @@ groupA:[
 "Laguna",
 "Zambales",
 "Aurora"
-],
 
-groupB:[
+];
+
+const groupB = [
+
 "Pangasinan",
 "Nueva Vizcaya",
 "Quirino",
@@ -99,9 +76,11 @@ groupB:[
 "Benguet",
 "Quezon",
 "Camarines Norte"
-],
 
-groupC:[
+];
+
+const groupC = [
+
 "Ilocos Sur",
 "Ifugao",
 "Mountain Province",
@@ -109,112 +88,122 @@ groupC:[
 "Abra",
 "Kalinga",
 "Camarines Sur"
-],
 
-groupD:[
+];
+
+const groupD = [
+
 "Ilocos Norte",
 "Apayao",
 "Cagayan",
 "Albay",
 "Sorsogon"
-]
 
-};
+];
 
-/* ======================================
+/* ==========================================
    DELIVERY FEES
-====================================== */
+========================================== */
 
-const DELIVERY={
+const DELIVERY_FEES = {
 
 "Parañaque":200,
-
 "Taguig":250,
-
 "Muntinlupa":275,
-
 "Pasay":300,
-
 "Las Piñas":375,
-
 "Makati":325,
-
 "Pateros":325,
-
 "Taytay":400,
-
 "Manila":500,
-
 "Cainta":500,
-
 "Quezon City":700
 
 };
 
-/* ======================================
-   FIND PROVINCE GROUP
-====================================== */
+/* ==========================================
+   GET RENTAL RATE
+========================================== */
 
-function getProvinceGroup(province){
+function getRentalRate(vehicle, rentalType, province){
 
-    if(GROUPS.groupA.includes(province)) return "groupA";
+    if(!vehicle || !province){
 
-    if(GROUPS.groupB.includes(province)) return "groupB";
-
-    if(GROUPS.groupC.includes(province)) return "groupC";
-
-    if(GROUPS.groupD.includes(province)) return "groupD";
-
-    return null;
-
-}
-
-/* ======================================
-   RENTAL RATE
-====================================== */
-
-function getRentalRate(vehicle,rentalType,province){
-
-    const group=getProvinceGroup(province);
-
-    if(!group) return 0;
-
-    if(rentalType=="half"){
-
-        return VEHICLES[vehicle].halfDay;
+        return 0;
 
     }
 
-    return VEHICLES[vehicle].regular[group];
+    if(rentalType === "half"){
+
+        if(groupA.includes(province)){
+
+            return VEHICLES[vehicle].halfDay;
+
+        }
+
+        return 0;
+
+    }
+
+    if(groupA.includes(province))
+        return VEHICLES[vehicle].regular.groupA;
+
+    if(groupB.includes(province))
+        return VEHICLES[vehicle].regular.groupB;
+
+    if(groupC.includes(province))
+        return VEHICLES[vehicle].regular.groupC;
+
+    if(groupD.includes(province))
+        return VEHICLES[vehicle].regular.groupD;
+
+    return 0;
 
 }
 
-/* ======================================
-   DELIVERY FEE
-====================================== */
-
-function getDeliveryFee(city){
-
-    return DELIVERY[city] || 0;
-
-}
+/* ==========================================
+   DELIVERY
+========================================== */
 
 function calculateDeliveryFee(method, city){
 
-    if(method !== "delivery"){
+    if(method !== "delivery")
         return 0;
-    }
 
-    return getDeliveryFee(city);
+    return DELIVERY_FEES[city] || 0;
 
 }
 
+/* ==========================================
+   PICKUP
+========================================== */
+
 function calculatePickupFee(method, city){
 
-    if(method !== "pickup"){
+    if(method !== "pickup")
         return 0;
+
+    return DELIVERY_FEES[city] || 0;
+
+}
+
+/* ==========================================
+   LATE NIGHT FEE
+========================================== */
+
+function calculateLateNightFee(time){
+
+    if(!time)
+        return 0;
+
+    const hour = parseInt(time.split(":")[0]);
+
+    if(hour >=22 || hour <4){
+
+        return CONFIG.lateNightFee;
+
     }
 
-    return getDeliveryFee(city);
+    return 0;
 
 }
