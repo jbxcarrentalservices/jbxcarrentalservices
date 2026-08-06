@@ -1080,3 +1080,49 @@ nav a{
 }
 
 }
+
+.book-messenger{
+
+    width:100%;
+
+    margin-top:30px;
+
+    padding:18px;
+
+    background:#0084ff;
+
+    color:#fff;
+
+    border:none;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    transition:.3s;
+
+}
+
+.book-messenger:hover{
+
+    background:#006fd6;
+
+}
+
+.booking-warning{
+
+    margin-top:18px;
+
+    color:#ffd54f;
+
+    font-size:15px;
+
+    text-align:center;
+
+    line-height:24px;
+
+}
