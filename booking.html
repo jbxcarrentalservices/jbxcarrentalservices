@@ -64,7 +64,27 @@ Reserve your preferred vehicle in just a few minutes.
 
 <section class="booking-container">
 
-<div class="booking-form">
+<div class="progress-container">
+
+<div class="progress-bar">
+
+<div id="progressFill"></div>
+
+</div>
+
+<div class="progress-text">
+
+Step <span id="currentStep">1</span> of 3
+
+</div>
+
+</div>
+
+<form id="bookingForm">
+
+<!-- STEP 1 -->
+
+<div class="step active" id="step1">
 
 <h2>Rental Details</h2>
 
@@ -160,135 +180,83 @@ Half Day (12 Hours)
 <input
 type="text"
 id="destination"
-placeholder="Hotel, Resort, Airport, Complete Address">
+placeholder="Complete Address">
 
-<h2 style="margin-top:50px;">Customer Information</h2>
+<div class="step-buttons">
 
-<label>Full Name</label>
+<button
+type="button"
+id="next1">
 
-<input
-type="text"
-id="customerName">
+Next →
 
-<label>Mobile Number</label>
-
-<input
-type="tel"
-id="customerPhone">
-
-<label>Email (Optional)</label>
-
-<input
-type="email"
-id="customerEmail">
-
-<label>Driver's License Number</label>
-
-<input
-type="text"
-id="licenseNumber">
+</button>
 
 </div>
 
-<div class="booking-summary">
+</div>
 
-<h2>Estimated Rental</h2>
+<!-- STEP 2 -->
 
-<div class="summary-card">
+<div class="step" id="step2">
 
-<p>
+<h2>Delivery & Customer Information</h2>
 
-Vehicle
+<p>Coming next...</p>
 
-<span id="sumVehicle">
-
-Toyota Vios XLE AT
-
-</span>
-
-</p>
-
-<p>
-
-Rental Type
-
-<span id="sumRentalType">
-
-Regular
-
-</span>
-
-</p>
-
-<p>
-
-Rental Days
-
-<span id="sumDays">
-
-1
-
-</span>
-
-</p>
-
-<p>
-
-Destination
-
-<span id="sumDestination">
-
--
-
-</span>
-
-</p>
-
-<p>
-
-Daily Rate
-
-<span id="sumRate">
-
-₱0
-
-</span>
-
-</p>
-
-<hr>
-
-<h3>
-
-Estimated Total
-
-<span id="sumTotal">
-
-₱0
-
-</span>
-
-</h3>
+<div class="step-buttons">
 
 <button
-id="bookMessenger"
-class="book-messenger">
+type="button"
+id="back1">
 
-<i class="fa-brands fa-facebook-messenger"></i>
+← Back
+
+</button>
+
+<button
+type="button"
+id="next2">
+
+Next →
+
+</button>
+
+</div>
+
+</div>
+
+<!-- STEP 3 -->
+
+<div class="step" id="step3">
+
+<h2>Review Booking</h2>
+
+<p>Coming next...</p>
+
+<div class="step-buttons">
+
+<button
+type="button"
+id="back2">
+
+← Back
+
+</button>
+
+<button
+type="button"
+id="bookMessenger">
 
 Book via Messenger
 
 </button>
 
-<p
-id="bookingWarning"
-class="booking-warning">
-
-</p>
-
 </div>
 
 </div>
+
+</form>
 
 </section>
 
