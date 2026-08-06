@@ -51,3 +51,23 @@ document.getElementById("back2").onclick=function(){
 }
 
 showStep(1);
+
+function calculateBooking(){
+
+    const vehicle=document.getElementById("vehicle").value;
+
+    const rentalType=document.getElementById("rentalType").value;
+
+    const province=document.getElementById("province").value;
+
+    const rate=getRentalRate(vehicle,rentalType,province);
+
+    console.log(rate);
+
+}
+
+document.getElementById("vehicle").onchange=calculateBooking;
+
+document.getElementById("rentalType").onchange=calculateBooking;
+
+document.getElementById("province").onchange=calculateBooking;
