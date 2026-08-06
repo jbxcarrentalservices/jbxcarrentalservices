@@ -152,6 +152,34 @@ const groupD=[
 "Sorsogon"
 ];
 
+const deliveryFees={
+
+"Parañaque":200,
+"Taguig":250,
+"Muntinlupa":275,
+"Pasay":300,
+"Las Piñas":375,
+"Makati":325,
+"Pateros":325,
+"Taytay":400,
+"Manila":500,
+"Cainta":500,
+"Quezon City":700
+
+};
+
+function getDeliveryFee(city){
+
+    if(deliveryFees[city]){
+
+        return deliveryFees[city];
+
+    }
+
+    return 0;
+
+}
+
 let currentStep = 1;
 
 function showStep(step){
