@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Book Your Vehicle | JBX Car Rental Services</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+
+<a href="index.html">
+<img src="Images/logo.png" alt="JBX Logo">
+</a>
+
+</div>
+
+<div class="menu-toggle">
+
+<i class="fa-solid fa-bars"></i>
+
+</div>
+
+<nav>
+
+<a href="index.html">HOME</a>
+
+<a href="index.html#cars">OUR CARS</a>
+
+<a href="index.html#cars">RATES</a>
+
+<a href="index.html#requirements">REQUIREMENTS</a>
+
+<a href="index.html#location">LOCATION</a>
+
+<a href="index.html#faq">FAQ</a>
+
+</nav>
+
+<a class="book-btn" href="booking.html">
+
+<i class="fa-solid fa-calendar"></i>
+
+BOOK NOW
+
+</a>
+
+</header>
+
+<section class="booking-hero">
+
+<h1>Book Your Vehicle</h1>
+
+<p>
+
+Reserve your preferred vehicle in just a few minutes.
+
+</p>
+
+</section>
+
+<section class="booking-container">
+
+<div class="booking-form">
+
+<h2>Rental Details</h2>
+
+<label>Vehicle</label>
+
+<select id="vehicle">
+
+<option value="vios">Toyota Vios</option>
+
+<option value="xpander">Mitsubishi Xpander</option>
+
+</select>
+
+<label>Pickup Date</label>
+
+<input type="date" id="pickupDate">
+
+<label>Return Date</label>
+
+<input type="date" id="returnDate">
+
+<label>Pickup Time</label>
+
+<input type="time" id="pickupTime">
+
+<label>Return Time</label>
+
+<input type="time" id="returnTime">
+
+<label>Destination Province</label>
+
+<select id="province">
+
+<option value="">Select Province</option>
+
+<option>Metro Manila</option>
+
+<option>Cavite</option>
+
+<option>Laguna</option>
+
+<option>Batangas</option>
+
+<option>Quezon</option>
+
+<option>Bulacan</option>
+
+<option>Pampanga</option>
+
+</select>
+
+<label>City / Municipality</label>
+
+<select id="city">
+
+<option>Select Province First</option>
+
+</select>
+
+<label>Exact Destination</label>
+
+<input type="text"
+placeholder="Hotel, Resort, Airport, Address">
+
+</div>
+
+<div class="booking-summary">
+
+<h2>Estimated Rental</h2>
+
+<div class="summary-card">
+
+<p>
+
+Vehicle
+
+<span id="sumVehicle">
+
+Toyota Vios
+
+</span>
+
+</p>
+
+<p>
+
+Rental Days
+
+<span id="sumDays">
+
+0
+
+</span>
+
+</p>
+
+<p>
+
+Daily Rate
+
+<span id="sumRate">
+
+₱1,800
+
+</span>
+
+</p>
+
+<p>
+
+Destination Fee
+
+<span id="sumDestination">
+
+₱0
+
+</span>
+
+</p>
+
+<hr>
+
+<h3>
+
+Estimated Total
+
+<span id="sumTotal">
+
+₱0
+
+</span>
+
+</h3>
+
+</div>
+
+</div>
+
+</section>
+
+<script src="booking.js"></script>
+
+</body>
+
+</html>
