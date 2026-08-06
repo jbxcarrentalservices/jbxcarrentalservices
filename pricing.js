@@ -148,3 +148,51 @@ const DELIVERY={
 "Quezon City":700
 
 };
+
+/* ======================================
+   FIND PROVINCE GROUP
+====================================== */
+
+function getProvinceGroup(province){
+
+    if(GROUPS.groupA.includes(province)) return "groupA";
+
+    if(GROUPS.groupB.includes(province)) return "groupB";
+
+    if(GROUPS.groupC.includes(province)) return "groupC";
+
+    if(GROUPS.groupD.includes(province)) return "groupD";
+
+    return null;
+
+}
+
+/* ======================================
+   RENTAL RATE
+====================================== */
+
+function getRentalRate(vehicle,rentalType,province){
+
+    const group=getProvinceGroup(province);
+
+    if(!group) return 0;
+
+    if(rentalType=="half"){
+
+        return VEHICLES[vehicle].halfDay;
+
+    }
+
+    return VEHICLES[vehicle].regular[group];
+
+}
+
+/* ======================================
+   DELIVERY FEE
+====================================== */
+
+function getDeliveryFee(city){
+
+    return DELIVERY[city] || 0;
+
+}
