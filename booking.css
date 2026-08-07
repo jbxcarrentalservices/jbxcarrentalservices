@@ -286,9 +286,8 @@
 
 .summary-card h2{
 
-    text-align:center;
-    font-size:42px;
-    line-height:1.2;
+    font-size:34px;
+    margin-bottom:30px;
 
 }
 .summary-card p{
