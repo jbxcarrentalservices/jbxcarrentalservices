@@ -2,6 +2,43 @@
    JBX BOOKING SYSTEM
 ========================================== */
 
+/* ==========================================
+   GOOGLE CALENDAR
+========================================== */
+
+const CALENDAR_ID = "jbxcarrentalservices@gmail.com";
+const GOOGLE_API_KEY = "AIzaSyDjGmJn7gTvpENVph4I8H9Z_its_a2K-e4";
+async function getBookedDates() {
+
+    const now = new Date().toISOString();
+
+    const url =
+        `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(CALENDAR_ID)}/events?` +
+        `key=${GOOGLE_API_KEY}` +
+        `&singleEvents=true` +
+        `&orderBy=startTime` +
+        `&timeMin=${now}`;
+
+    try {
+
+        const response = await fetch(url);
+
+        const data = await response.json();
+
+        console.log("Calendar Events:", data);
+
+        return data.items || [];
+
+    } catch (err) {
+
+        console.error(err);
+
+        return [];
+
+    }
+
+}
+
 // -------------------------
 // STEP WIZARD
 // -------------------------
@@ -477,3 +514,5 @@ Thank you!`;
 toggleDeliverySection();
 
 calculateBooking();
+
+getBookedDates();
