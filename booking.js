@@ -471,7 +471,13 @@ fields.forEach(id=>{
 
     if(element){
 
-        element.addEventListener("change",calculateBooking);
+        element.addEventListener("change", () => {
+
+            calculateBooking();
+
+            checkVehicleAvailability();
+
+        });
 
     }
 
@@ -591,4 +597,6 @@ toggleDeliverySection();
 
 calculateBooking();
 
-getBookedDates();
+getBookedDates().then(() => {
+    checkVehicleAvailability();
+});
