@@ -10,12 +10,17 @@ let calendarData = {};
 
 const CALENDAR_ID = "jbxcarrentalservices@gmail.com";
 const GOOGLE_API_KEY = "AIzaSyDjGmJn7gTvpENVph4I8H9Z_its_a2K-e4";
+const VEHICLE_CODES = {
+    vios: "VIOS",
+    xpander: "XPANDER"
+};
+
 async function checkVehicleAvailability(){
 
-    const vehicle =
-        VEHICLES[
-            document.getElementById("vehicle").value
-        ].name;
+const vehicleCode =
+    VEHICLE_CODES[
+        document.getElementById("vehicle").value
+    ];
 
     const pickup =
         document.getElementById("pickupDate").value;
@@ -41,18 +46,7 @@ async function checkVehicleAvailability(){
        console.log("Selected Vehicle:", vehicle);
 console.log("Calendar Vehicle:", event.summary);
 
-const calendarVehicle = event.summary
-    .replace(/\s+/g, " ")
-    .trim();
-
-const selectedVehicle = vehicle
-    .replace(/\s+/g, " ")
-    .trim();
-
-console.log("Selected:", selectedVehicle);
-console.log("Calendar:", calendarVehicle);
-
-if (calendarVehicle !== selectedVehicle) return;
+if (!event.summary.startsWith(vehicleCode)) return;
 
 const eventStart = new Date(
     event.start.date || event.start.dateTime
