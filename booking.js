@@ -43,17 +43,26 @@ console.log("Calendar Vehicle:", event.summary);
 
         if(!event.summary.includes(vehicle)) return;
 
-        const eventStart =
-            new Date(event.start.date || event.start.dateTime);
+const eventStart = new Date(
+    event.start.date || event.start.dateTime
+);
 
-        const eventEnd =
-            new Date(event.end.date || event.end.dateTime);
+const eventEnd = new Date(
+    event.end.date || event.end.dateTime
+);
 
-        if(start < eventEnd && end > eventStart){
+// make the user's return date inclusive
+end.setDate(end.getDate() + 1);
 
-            booked = true;
+console.log("User Start:", start);
+console.log("User End:", end);
 
-        }
+console.log("Event Start:", eventStart);
+console.log("Event End:", eventEnd);
+
+if (start < eventEnd && end > eventStart) {
+    booked = true;
+}
 
     });
 
