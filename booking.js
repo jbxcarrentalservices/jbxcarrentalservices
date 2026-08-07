@@ -597,6 +597,10 @@ toggleDeliverySection();
 
 calculateBooking();
 
-getBookedDates().then(() => {
+(async () => {
+
+    await getBookedDates();
+
     checkVehicleAvailability();
-});
+
+})();
