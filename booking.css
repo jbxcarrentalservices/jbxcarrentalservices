@@ -228,6 +228,28 @@ to{
 }
 
 /* ==========================================
+   AVAILABILITY NOTICE
+========================================== */
+
+.availability-notice{
+
+    display:none;
+
+    margin-top:15px;
+
+    padding:14px;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+    font-size:15px;
+
+    transition:.3s;
+
+}
+
+/* ==========================================
    BUTTONS
 ========================================== */
 
