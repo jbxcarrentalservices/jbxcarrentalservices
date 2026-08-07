@@ -254,6 +254,12 @@
 
 }
 
+.summary-card h2{
+
+    font-size:34px;
+
+}
+
 }
 
 /* ==========================================
@@ -280,23 +286,25 @@
 
 .summary-card h2{
 
-    color:#111;
+    text-align:center;
+    font-size:42px;
+    line-height:1.2;
 
-    margin-bottom:25px;
-
+}
 .summary-card p{
 
     display:flex;
-
     justify-content:space-between;
-
-    align-items:center;
-
+    align-items:flex-start;
+    gap:20px;
     margin:15px 0;
 
-    color:#222;
+}
 
-    font-size:17px;
+.summary-card p span{
+
+    text-align:right;
+    font-weight:600;
 
 }
 
@@ -321,14 +329,10 @@
 .total-row{
 
     display:flex;
-
     justify-content:space-between;
-
     align-items:center;
 
-    font-size:30px;
-
-    color:#000;
+    font-size:32px;
 
 }
 
@@ -371,26 +375,7 @@
 .book-messenger{
 
     width:100%;
-
-    margin-top:35px;
-
-    padding:18px;
-
-    border:none;
-
-    border-radius:12px;
-
-    background:#0084FF;
-
-    color:#fff;
-
-    font-size:18px;
-
-    font-weight:700;
-
-    cursor:pointer;
-
-    transition:.3s;
+    margin-top:25px;
 
 }
 
