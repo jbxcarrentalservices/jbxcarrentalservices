@@ -57,6 +57,8 @@ async function checkVehicleAvailability(){
     const notice =
         document.getElementById("availabilityNotice");
 
+   if(!notice) return;
+   
     if(booked){
 
         notice.style.display="block";
