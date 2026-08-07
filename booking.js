@@ -6,8 +6,82 @@
    GOOGLE CALENDAR
 ========================================== */
 
+let calendarData = {};
+
 const CALENDAR_ID = "jbxcarrentalservices@gmail.com";
 const GOOGLE_API_KEY = "AIzaSyDjGmJn7gTvpENVph4I8H9Z_its_a2K-e4";
+async function checkVehicleAvailability(){
+
+    const vehicle =
+        VEHICLES[
+            document.getElementById("vehicle").value
+        ].name;
+
+    const pickup =
+        document.getElementById("pickupDate").value;
+
+    const returnDate =
+        document.getElementById("returnDate").value;
+
+    if(!pickup || !returnDate) return;
+
+    const start = new Date(pickup);
+
+    const end = new Date(returnDate);
+
+    const events =
+        calendarData.items || [];
+
+    let booked = false;
+
+    events.forEach(event=>{
+
+        if(!event.summary) return;
+
+        if(!event.summary.includes(vehicle)) return;
+
+        const eventStart =
+            new Date(event.start.date || event.start.dateTime);
+
+        const eventEnd =
+            new Date(event.end.date || event.end.dateTime);
+
+        if(start < eventEnd && end > eventStart){
+
+            booked = true;
+
+        }
+
+    });
+
+    const notice =
+        document.getElementById("availabilityNotice");
+
+    if(booked){
+
+        notice.style.display="block";
+
+        notice.style.background="#ffe5e5";
+
+        notice.style.color="#c40000";
+
+        notice.innerHTML="❌ This vehicle is already booked on the selected dates.";
+
+    }
+
+    else{
+
+        notice.style.display="block";
+
+        notice.style.background="#e9ffe9";
+
+        notice.style.color="#008000";
+
+        notice.innerHTML="✅ Vehicle is available.";
+
+    }
+
+}
 async function getBookedDates() {
 
     const now = new Date().toISOString();
@@ -25,9 +99,11 @@ async function getBookedDates() {
 
         const data = await response.json();
 
-        console.log("Calendar Events:", data);
+calendarData = data;
 
-        return data.items || [];
+console.log("Calendar Events:", data);
+
+return data.items || [];
 
     } catch (err) {
 
