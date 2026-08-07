@@ -38,6 +38,9 @@ async function checkVehicleAvailability(){
 
         if(!event.summary) return;
 
+       console.log("Selected Vehicle:", vehicle);
+console.log("Calendar Vehicle:", event.summary);
+
         if(!event.summary.includes(vehicle)) return;
 
         const eventStart =
