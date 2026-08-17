@@ -582,6 +582,8 @@ ${document.getElementById("pickupMethod").value}
 Pickup City:
 ${document.getElementById("pickupCity").value}
 
+Pickup Address:
+${document.getElementById("pickupAddress").value}
 ========================
 
 Estimated Rental Fee:
