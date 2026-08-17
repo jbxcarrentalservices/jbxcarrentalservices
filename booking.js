@@ -576,6 +576,9 @@ ${document.getElementById("deliveryMethod").value}
 Delivery City:
 ${document.getElementById("deliveryCity").value}
 
+Delivery Address:
+${document.getElementById("deliveryAddress").value}
+
 Vehicle Return:
 ${document.getElementById("pickupMethod").value}
 
