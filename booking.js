@@ -317,14 +317,6 @@ function validateStep2(){
 
     }
 
-    if(document.getElementById("licenseNumber").value==""){
-
-        alert("Please enter your driver's license number.");
-
-        return false;
-
-    }
-
     return true;
 
 }
