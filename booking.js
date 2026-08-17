@@ -592,9 +592,6 @@ ${document.getElementById("customerPhone").value}
 Email:
 ${document.getElementById("customerEmail").value}
 
-Driver's License:
-${document.getElementById("licenseNumber").value}
-
 Thank you!`;
 
     window.open(
