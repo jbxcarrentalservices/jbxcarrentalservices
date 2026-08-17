@@ -225,8 +225,31 @@ function toggleDeliverySection(){
 
 }
 
+function togglePickupSection(){
+
+    const pickupMethod =
+    document.getElementById("pickupMethod").value;
+
+    const pickupSection =
+    document.getElementById("pickupSection");
+
+    if(pickupMethod=="pickup"){
+
+        pickupSection.style.display="block";
+
+    }else{
+
+        pickupSection.style.display="none";
+
+    }
+
+}
+
 document.getElementById("deliveryMethod")
 .addEventListener("change",toggleDeliverySection);
+
+document.getElementById("pickupMethod")
+.addEventListener("change",togglePickupSection);
 
 toggleDeliverySection();
 
@@ -610,6 +633,8 @@ Thank you!`;
 // -------------------------
 
 toggleDeliverySection();
+
+togglePickupSection();
 
 calculateBooking();
 
