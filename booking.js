@@ -480,6 +480,31 @@ function calculateBooking(){
 }
 
 // -------------------------
+// RETURN DATE MINIMUM
+// -------------------------
+
+function updateReturnDateMin(){
+
+    const pickupDate =
+        document.getElementById("pickupDate").value;
+
+    const returnDate =
+        document.getElementById("returnDate");
+
+    if(!pickupDate) return;
+
+    returnDate.min = pickupDate;
+
+    // Clear return date if it is earlier than pickup date
+    if(returnDate.value && returnDate.value < pickupDate){
+
+        returnDate.value = "";
+
+    }
+
+}
+
+// -------------------------
 // LIVE UPDATE
 // -------------------------
 
@@ -513,6 +538,11 @@ fields.forEach(id=>{
 
         });
 
+       if(id=="pickupDate"){
+
+    element.addEventListener("change", updateReturnDateMin);
+
+}
     }
 
 });
@@ -632,6 +662,8 @@ Thank you!`;
 toggleDeliverySection();
 
 togglePickupSection();
+
+updateReturnDateMin();
 
 calculateBooking();
 
