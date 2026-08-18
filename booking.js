@@ -434,6 +434,21 @@ function calculateBooking(){
 
         lateNightFee;
 
+   const step1EstimatedTotal =
+    rentalFee +
+    carWashFee +
+    lateNightFee;
+
+const step1Preview =
+    document.getElementById("step1EstimatedTotal");
+
+if(step1Preview){
+
+    step1Preview.textContent =
+        "₱" + step1EstimatedTotal.toLocaleString();
+
+}
+   
     // -------------------------
     // UPDATE SUMMARY
     // -------------------------
