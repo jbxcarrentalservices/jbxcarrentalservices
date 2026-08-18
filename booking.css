@@ -302,6 +302,70 @@ to{
 }
 
 /* ==========================================
+   STEP 2 ADDITIONAL FEES
+========================================== */
+
+.step2-fee-preview{
+
+    margin-top:30px;
+
+    padding:22px;
+
+    background:#f7f7f7;
+
+    border:1px solid #ddd;
+
+    border-radius:12px;
+
+}
+
+.fee-preview-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:10px 0;
+
+    font-size:15px;
+
+}
+
+.fee-preview-row strong{
+
+    font-weight:700;
+
+}
+
+.fee-preview-total{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-top:10px;
+
+    padding-top:15px;
+
+    border-top:1px solid #ccc;
+
+    font-size:17px;
+
+    font-weight:700;
+
+}
+
+#step2AdditionalTotal{
+
+    font-size:20px;
+
+}
+
+/* ==========================================
    BUTTONS
 ========================================== */
 
