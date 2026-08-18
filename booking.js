@@ -480,6 +480,22 @@ function calculateBooking(){
 }
 
 // -------------------------
+// PICKUP DATE MINIMUM
+// -------------------------
+
+function setPickupDateMin(){
+
+    const pickupDate =
+        document.getElementById("pickupDate");
+
+    const today =
+        new Date().toISOString().split("T")[0];
+
+    pickupDate.min = today;
+
+}
+
+// -------------------------
 // RETURN DATE MINIMUM
 // -------------------------
 
@@ -662,6 +678,8 @@ Thank you!`;
 toggleDeliverySection();
 
 togglePickupSection();
+
+setPickupDateMin();
 
 updateReturnDateMin();
 
