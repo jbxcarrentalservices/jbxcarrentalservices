@@ -17,10 +17,10 @@ const VEHICLE_CODES = {
 
 async function checkVehicleAvailability(){
 
-const vehicleCode =
-    VEHICLE_CODES[
-        document.getElementById("vehicle").value
-    ];
+    const vehicleCode =
+        VEHICLE_CODES[
+            document.getElementById("vehicle").value
+        ];
 
     const pickup =
         document.getElementById("pickupDate").value;
@@ -28,11 +28,33 @@ const vehicleCode =
     const returnDate =
         document.getElementById("returnDate").value;
 
-    if(!pickup || !returnDate) return;
+    const pickupTime =
+        document.getElementById("pickupTime").value;
 
-    const start = new Date(pickup);
+    const returnTime =
+        document.getElementById("returnTime").value;
 
-    const end = new Date(returnDate);
+    // Wait until ALL date and time fields are entered
+    if(
+        !pickup ||
+        !returnDate ||
+        !pickupTime ||
+        !returnTime
+    ){
+
+        return;
+
+    }
+
+    const userStart =
+        new Date(
+            `${pickup}T${pickupTime}`
+        );
+
+    const userEnd =
+        new Date(
+            `${returnDate}T${returnTime}`
+        );
 
     const events =
         calendarData.items || [];
@@ -43,60 +65,79 @@ const vehicleCode =
 
         if(!event.summary) return;
 
-       console.log("Selected Vehicle:", vehicle);
-console.log("Calendar Vehicle:", event.summary);
+        // Check vehicle
+        if(
+            !event.summary
+                .startsWith(vehicleCode)
+        ){
 
-if (!event.summary.startsWith(vehicleCode)) return;
+            return;
 
-const eventStart = new Date(
-    event.start.date || event.start.dateTime
-);
+        }
 
-const eventEnd = new Date(
-    event.end.date || event.end.dateTime
-);
+        let eventStart =
+            new Date(
+                event.start.dateTime ||
+                event.start.date
+            );
 
-// make the user's return date inclusive
-end.setDate(end.getDate() + 1);
+        let eventEnd =
+            new Date(
+                event.end.dateTime ||
+                event.end.date
+            );
 
-console.log("User Start:", start);
-console.log("User End:", end);
+        // 2-hour buffer BEFORE reservation
+        eventStart.setHours(
+            eventStart.getHours() - 2
+        );
 
-console.log("Event Start:", eventStart);
-console.log("Event End:", eventEnd);
+        // 2-hour buffer AFTER reservation
+        eventEnd.setHours(
+            eventEnd.getHours() + 2
+        );
 
-if (start < eventEnd && end > eventStart) {
-    booked = true;
-}
+        // Check actual date + time overlap
+        if(
+            userStart < eventEnd &&
+            userEnd > eventStart
+        ){
+
+            booked = true;
+
+        }
 
     });
 
     const notice =
-        document.getElementById("availabilityNotice");
+        document.getElementById(
+            "availabilityNotice"
+        );
 
-   if(!notice) return;
-   
+    if(!notice) return;
+
     if(booked){
 
-        notice.style.display="block";
+        notice.style.display = "block";
 
-        notice.style.background="#ffe5e5";
+        notice.style.background = "#ffe5e5";
 
-        notice.style.color="#c40000";
+        notice.style.color = "#c40000";
 
-        notice.innerHTML="❌ This vehicle is already booked on the selected dates.";
+        notice.innerHTML =
+            "❌ This vehicle is unavailable during the selected date and time. Please choose another time.";
 
     }
-
     else{
 
-        notice.style.display="block";
+        notice.style.display = "block";
 
-        notice.style.background="#e9ffe9";
+        notice.style.background = "#e9ffe9";
 
-        notice.style.color="#008000";
+        notice.style.color = "#008000";
 
-        notice.innerHTML="✅ Vehicle is available.";
+        notice.innerHTML =
+            "✅ Vehicle is available for the selected date and time.";
 
     }
 
@@ -165,6 +206,20 @@ function showStep(step){
 // -------------------------
 
 document.getElementById("next1").onclick=function(){
+
+    const pickupTime =
+        document.getElementById("pickupTime").value;
+
+    const returnTime =
+        document.getElementById("returnTime").value;
+
+    if(!pickupTime || !returnTime){
+
+        alert("Please enter both pickup time and return time.");
+
+        return;
+
+    }
 
     if(!validateStep1()) return;
 
