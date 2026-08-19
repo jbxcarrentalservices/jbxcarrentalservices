@@ -542,33 +542,6 @@ else{
 
     );
 
-   const step2DeliveryFee =
-    document.getElementById("step2DeliveryFee");
-
-const step2PickupFee =
-    document.getElementById("step2PickupFee");
-
-const step2AdditionalTotal =
-    document.getElementById("step2AdditionalTotal");
-
-step2DeliveryFee.textContent =
-    "₱" + finalDeliveryFee.toLocaleString();
-
-}
-
-if(step2PickupFee){
-
-   step2PickupFee.textContent =
-    "₱" + finalPickupFee.toLocaleString();
-}
-
-if(step2AdditionalTotal){
-
-   step2AdditionalTotal.textContent =
-    "₱" + (finalDeliveryFee + finalPickupFee).toLocaleString();
-
-}
-
     // Charge late-night fee for BOTH delivery and pickup times
     const pickupLateNight =
     calculateLateNightFee(
