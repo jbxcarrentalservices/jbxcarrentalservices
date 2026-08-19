@@ -726,7 +726,7 @@ document.getElementById("sumSpecialDiscount").textContent =
     document.getElementById("sumTotal").textContent =
     "₱"+total.toLocaleString();
 
-
+}
 
 // -------------------------
 // PICKUP DATE MINIMUM
