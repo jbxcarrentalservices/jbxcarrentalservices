@@ -704,13 +704,13 @@ if(step1Preview){
     "₱"+rentalFee.toLocaleString();
 
     document.getElementById("sumDelivery").textContent =
-    "₱"+deliveryFee.toLocaleString();
+    "₱" + finalDeliveryFee.toLocaleString();
 
-    document.getElementById("sumPickup").textContent =
-    "₱"+pickupFee.toLocaleString();
+document.getElementById("sumPickup").textContent =
+    "₱" + finalPickupFee.toLocaleString();
 
-    document.getElementById("sumCarWash").textContent =
-    "₱"+carWashFee.toLocaleString();
+document.getElementById("sumCarWash").textContent =
+    "₱" + finalCarWashFee.toLocaleString();
 
     document.getElementById("sumLateNight").textContent =
     "₱"+lateNightFee.toLocaleString();
