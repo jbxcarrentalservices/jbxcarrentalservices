@@ -19,10 +19,8 @@ const VEHICLE_CODES = {
 
 async function checkVehicleAvailability(){
 
-    const vehicleCode =
-        VEHICLE_CODES[
-            document.getElementById("vehicle").value
-        ];
+    const selectedVehicle =
+        document.getElementById("vehicle").value;
 
     const pickup =
         document.getElementById("pickupDate").value;
@@ -36,7 +34,10 @@ async function checkVehicleAvailability(){
     const returnTime =
         document.getElementById("returnTime").value;
 
-    // Wait until ALL date and time fields are entered
+    const notice =
+        document.getElementById("availabilityNotice");
+
+    // Wait until all date and time fields are entered
     if(
         !pickup ||
         !returnDate ||
@@ -44,81 +45,226 @@ async function checkVehicleAvailability(){
         !returnTime
     ){
 
+        vehicleIsBooked = false;
+
+        if(notice){
+            notice.style.display = "none";
+        }
+
         return;
 
     }
 
     const userStart =
-        new Date(
-            `${pickup}T${pickupTime}`
-        );
+        new Date(`${pickup}T${pickupTime}`);
 
     const userEnd =
-        new Date(
-            `${returnDate}T${returnTime}`
-        );
+        new Date(`${returnDate}T${returnTime}`);
 
     const events =
         calendarData.items || [];
 
-   vehicleIsBooked = false;
 
-    events.forEach(event=>{
+    // --------------------------------
+    // CHECK ONE VEHICLE
+    // --------------------------------
 
-        if(!event.summary) return;
+    function isVehicleAvailable(vehicleCode){
 
-        // Check vehicle
-        if(
-            !event.summary
-                .startsWith(vehicleCode)
-        ){
+        let booked = false;
 
-            return;
+        events.forEach(event => {
+
+            if(!event.summary) return;
+
+            if(!event.summary.startsWith(vehicleCode)){
+                return;
+            }
+
+            let eventStart =
+                new Date(
+                    event.start.dateTime ||
+                    event.start.date
+                );
+
+            let eventEnd =
+                new Date(
+                    event.end.dateTime ||
+                    event.end.date
+                );
+
+
+            // 2-hour buffer BEFORE reservation
+            eventStart.setHours(
+                eventStart.getHours() - 2
+            );
+
+
+            // 2-hour buffer AFTER reservation
+            eventEnd.setHours(
+                eventEnd.getHours() + 2
+            );
+
+
+            // Actual date + time overlap
+            if(
+                userStart < eventEnd &&
+                userEnd > eventStart
+            ){
+
+                booked = true;
+
+            }
+
+        });
+
+        return !booked;
+
+    }
+
+
+    // --------------------------------
+    // CHECK SELECTED VEHICLE
+    // --------------------------------
+
+    const selectedCode =
+        VEHICLE_CODES[selectedVehicle];
+
+    const selectedAvailable =
+        isVehicleAvailable(selectedCode);
+
+
+    // --------------------------------
+    // DETERMINE OTHER VEHICLE
+    // --------------------------------
+
+    const otherVehicle =
+        selectedVehicle === "vios"
+            ? "xpander"
+            : "vios";
+
+    const otherCode =
+        VEHICLE_CODES[otherVehicle];
+
+    const otherAvailable =
+        isVehicleAvailable(otherCode);
+
+
+    // --------------------------------
+    // SELECTED VEHICLE AVAILABLE
+    // --------------------------------
+
+    if(selectedAvailable){
+
+        vehicleIsBooked = false;
+
+        if(notice){
+
+            notice.style.display = "block";
+
+            notice.style.background = "#e9ffe9";
+
+            notice.style.color = "#008000";
+
+            notice.innerHTML =
+                "✅ " +
+                (selectedVehicle === "vios"
+                    ? "Vios"
+                    : "Xpander") +
+                " is available for the selected date and time.";
 
         }
 
-        let eventStart =
-            new Date(
-                event.start.dateTime ||
-                event.start.date
-            );
+        return;
 
-        let eventEnd =
-            new Date(
-                event.end.dateTime ||
-                event.end.date
-            );
+    }
 
-        // 2-hour buffer BEFORE reservation
-        eventStart.setHours(
-            eventStart.getHours() - 2
-        );
 
-        // 2-hour buffer AFTER reservation
-        eventEnd.setHours(
-            eventEnd.getHours() + 2
-        );
+    // --------------------------------
+    // SELECTED UNAVAILABLE
+    // OTHER AVAILABLE
+    // --------------------------------
 
-        // Check actual date + time overlap
-        if(
-            userStart < eventEnd &&
-            userEnd > eventStart
-        ){
+    if(!selectedAvailable && otherAvailable){
 
-            vehicleIsBooked = true;
+        vehicleIsBooked = true;
+
+        if(notice){
+
+            notice.style.display = "block";
+
+            notice.style.background = "#fff4d6";
+
+            notice.style.color = "#8a5a00";
+
+            const otherName =
+                otherVehicle === "vios"
+                    ? "Vios"
+                    : "Xpander";
+
+            notice.innerHTML =
+
+                "❌ " +
+                (selectedVehicle === "vios"
+                    ? "Vios"
+                    : "Xpander") +
+                " is unavailable for the selected date and time.<br><br>" +
+
+                "✅ " +
+                otherName +
+                " is available.<br><br>" +
+
+                `<button type="button"
+                    id="switchVehicleButton"
+                    style="
+                        padding:12px 18px;
+                        border:none;
+                        border-radius:8px;
+                        background:#000;
+                        color:#fff;
+                        font-weight:600;
+                        cursor:pointer;
+                    ">
+                    Switch to ${otherName}
+                </button>`;
+
+            const switchButton =
+                document.getElementById(
+                    "switchVehicleButton"
+                );
+
+            if(switchButton){
+
+                switchButton.onclick = function(){
+
+                    document.getElementById(
+                        "vehicle"
+                    ).value = otherVehicle;
+
+                    vehicleIsBooked = false;
+
+                    calculateBooking();
+
+                    checkVehicleAvailability();
+
+                };
+
+            }
 
         }
 
-    });
+        return;
 
-    const notice =
-        document.getElementById(
-            "availabilityNotice"
-        );
+    }
 
-    if(!notice) return;
 
-    if(vehicleIsBooked){
+    // --------------------------------
+    // BOTH VEHICLES UNAVAILABLE
+    // --------------------------------
+
+    vehicleIsBooked = true;
+
+    if(notice){
 
         notice.style.display = "block";
 
@@ -127,19 +273,11 @@ async function checkVehicleAvailability(){
         notice.style.color = "#c40000";
 
         notice.innerHTML =
-            "❌ This vehicle is unavailable during the selected date and time. Please choose another time.";
 
-    }
-    else{
+            "❌ Both Vios and Xpander are unavailable " +
+            "for the selected date and time.<br><br>" +
 
-        notice.style.display = "block";
-
-        notice.style.background = "#e9ffe9";
-
-        notice.style.color = "#008000";
-
-        notice.innerHTML =
-            "✅ Vehicle is available for the selected date and time.";
+            "Please choose another date or time.";
 
     }
 
