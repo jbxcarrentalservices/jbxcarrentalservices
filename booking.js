@@ -59,7 +59,7 @@ async function checkVehicleAvailability(){
     const events =
         calendarData.items || [];
 
-    let booked = false;
+   vehicleIsBooked = false;
 
     events.forEach(event=>{
 
@@ -103,7 +103,7 @@ async function checkVehicleAvailability(){
             userEnd > eventStart
         ){
 
-            booked = true;
+            vehicleIsBooked = true;
 
         }
 
@@ -205,7 +205,7 @@ function showStep(step){
 // STEP BUTTONS
 // -------------------------
 
-document.getElementById("next1").onclick=function(){
+document.getElementById("next1").onclick=async function(){
 
     const pickupTime =
         document.getElementById("pickupTime").value;
@@ -222,6 +222,18 @@ document.getElementById("next1").onclick=function(){
     }
 
     if(!validateStep1()) return;
+
+    await checkVehicleAvailability();
+
+    if(vehicleIsBooked){
+
+        alert(
+            "This vehicle is unavailable for the selected date and time. Please choose another time."
+        );
+
+        return;
+
+    }
 
     currentStep=2;
 
