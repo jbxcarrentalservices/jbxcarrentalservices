@@ -712,6 +712,9 @@ document.getElementById("sumPickup").textContent =
 document.getElementById("sumCarWash").textContent =
     "₱" + finalCarWashFee.toLocaleString();
 
+document.getElementById("sumSpecialDiscount").textContent =
+    "₱" + longRentalDiscount.toLocaleString();
+
     document.getElementById("sumLateNight").textContent =
     "₱"+lateNightFee.toLocaleString();
 
