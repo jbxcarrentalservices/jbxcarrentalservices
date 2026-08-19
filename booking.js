@@ -118,7 +118,7 @@ async function checkVehicleAvailability(){
 
     if(!notice) return;
 
-    if(booked){
+    if(vehicleIsBooked){
 
         notice.style.display = "block";
 
