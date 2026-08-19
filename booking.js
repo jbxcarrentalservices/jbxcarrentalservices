@@ -464,10 +464,7 @@ if(step2AdditionalTotal){
 
         lateNightFee;
 
-   const step1EstimatedTotal =
-    rentalFee +
-    carWashFee +
-    lateNightFee;
+  const step1EstimatedTotal = rentalFee;
 
 const step1Preview =
     document.getElementById("step1EstimatedTotal");
