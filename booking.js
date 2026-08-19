@@ -573,6 +573,38 @@ let finalDeliveryFee =
 let finalPickupFee =
     pickupFee;
 
+   // STEP 2 FEE PREVIEW
+
+const step2DeliveryFee =
+    document.getElementById("step2DeliveryFee");
+
+const step2PickupFee =
+    document.getElementById("step2PickupFee");
+
+const step2AdditionalTotal =
+    document.getElementById("step2AdditionalTotal");
+
+if(step2DeliveryFee){
+
+    step2DeliveryFee.textContent =
+        "₱" + finalDeliveryFee.toLocaleString();
+
+}
+
+if(step2PickupFee){
+
+    step2PickupFee.textContent =
+        "₱" + finalPickupFee.toLocaleString();
+
+}
+
+if(step2AdditionalTotal){
+
+    step2AdditionalTotal.textContent =
+        "₱" + (finalDeliveryFee + finalPickupFee).toLocaleString();
+
+}
+
 let longRentalDiscount =
     0;
 
