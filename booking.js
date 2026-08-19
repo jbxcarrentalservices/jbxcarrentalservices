@@ -17,90 +17,113 @@ const VEHICLE_CODES = {
 
 async function checkVehicleAvailability(){
 
-const vehicleCode =
-    VEHICLE_CODES[
-        document.getElementById("vehicle").value
-    ];
+    const vehicle =
+        VEHICLES[
+            document.getElementById("vehicle").value
+        ].name;
 
-    const pickup =
+    const pickupDate =
         document.getElementById("pickupDate").value;
 
     const returnDate =
         document.getElementById("returnDate").value;
 
-    if(!pickup || !returnDate) return;
+    const pickupTime =
+        document.getElementById("pickupTime").value || "00:00";
 
-    const start = new Date(pickup);
+    const returnTime =
+        document.getElementById("returnTime").value || "23:59";
 
-    const end = new Date(returnDate);
+    if(!pickupDate || !returnDate) return;
+
+    // User's selected rental period
+    const start =
+        new Date(`${pickupDate}T${pickupTime}`);
+
+    const end =
+        new Date(`${returnDate}T${returnTime}`);
 
     const events =
         calendarData.items || [];
 
     let booked = false;
 
-    events.forEach(event=>{
+    events.forEach(event => {
 
         if(!event.summary) return;
 
-       console.log("Selected Vehicle:", vehicle);
-console.log("Calendar Vehicle:", event.summary);
+        // Normalize vehicle names
+        const calendarVehicle =
+            event.summary
+                .replace(/\s+/g, " ")
+                .trim();
 
-if (!event.summary.startsWith(vehicleCode)) return;
+        const selectedVehicle =
+            vehicle
+                .replace(/\s+/g, " ")
+                .trim();
 
-const eventStart = new Date(
-    event.start.date || event.start.dateTime
-);
+        if(calendarVehicle !== selectedVehicle) return;
 
-const eventEnd = new Date(
-    event.end.date || event.end.dateTime
-);
+        let eventStart =
+            new Date(
+                event.start.dateTime ||
+                event.start.date
+            );
 
-// make the user's return date inclusive
-end.setDate(end.getDate() + 1);
+        let eventEnd =
+            new Date(
+                event.end.dateTime ||
+                event.end.date
+            );
 
-console.log("User Start:", start);
-console.log("User End:", end);
+        // 2-hour buffer before and after reservation
+        eventStart.setHours(
+            eventStart.getHours() - 2
+        );
 
-console.log("Event Start:", eventStart);
-console.log("Event End:", eventEnd);
+        eventEnd.setHours(
+            eventEnd.getHours() + 2
+        );
 
-if (start < eventEnd && end > eventStart) {
-    booked = true;
-}
+        // Check for overlap
+        if(start < eventEnd && end > eventStart){
+
+            booked = true;
+
+        }
 
     });
 
     const notice =
         document.getElementById("availabilityNotice");
 
-   if(!notice) return;
-   
     if(booked){
 
-        notice.style.display="block";
+        notice.style.display = "block";
 
-        notice.style.background="#ffe5e5";
+        notice.style.background = "#ffe5e5";
 
-        notice.style.color="#c40000";
+        notice.style.color = "#c40000";
 
-        notice.innerHTML="❌ This vehicle is already booked on the selected dates.";
+        notice.innerHTML =
+            "❌ This vehicle is unavailable during the selected time, including the 2-hour preparation/return allowance.";
 
-    }
+    }else{
 
-    else{
+        notice.style.display = "block";
 
-        notice.style.display="block";
+        notice.style.background = "#e9ffe9";
 
-        notice.style.background="#e9ffe9";
+        notice.style.color = "#008000";
 
-        notice.style.color="#008000";
-
-        notice.innerHTML="✅ Vehicle is available.";
+        notice.innerHTML =
+            "✅ Vehicle is available for the selected date and time.";
 
     }
 
 }
+
 async function getBookedDates() {
 
     const now = new Date().toISOString();
