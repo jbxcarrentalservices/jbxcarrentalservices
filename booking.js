@@ -447,11 +447,82 @@ function calculateBooking(){
     const rate =
     getRentalRate(vehicle,rentalType,province);
 
-    const days =
+   const days =
     getRentalDays();
 
-    const rentalFee =
-    rate * days;
+let rentalFee = 0;
+let excessHours = 0;
+let excessHourFee = 0;
+
+if(rentalType === "regular"){
+
+    const pickupDate =
+        document.getElementById("pickupDate").value;
+
+    const returnDate =
+        document.getElementById("returnDate").value;
+
+    const pickupTime =
+        document.getElementById("pickupTime").value;
+
+    const returnTime =
+        document.getElementById("returnTime").value;
+
+    if(
+        pickupDate &&
+        returnDate &&
+        pickupTime &&
+        returnTime
+    ){
+
+        const start =
+            new Date(`${pickupDate}T${pickupTime}`);
+
+        const end =
+            new Date(`${returnDate}T${returnTime}`);
+
+        const totalHours =
+            (end - start) / (1000 * 60 * 60);
+
+        const fullDays =
+            Math.floor(totalHours / 24);
+
+        excessHours =
+            Math.floor(totalHours % 24);
+
+        rentalFee =
+            fullDays * rate;
+
+        if(excessHours > 0){
+
+            const excessRates =
+                vehicle === "vios"
+                    ? VIOS_EXCESS_RATES
+                    : XPANDER_EXCESS_RATES;
+
+            excessHourFee =
+                excessRates[excessHours] || 0;
+
+        }
+
+        rentalFee += excessHourFee;
+
+    }
+    else{
+
+        rentalFee =
+            rate * days;
+
+    }
+
+}
+else{
+
+    // Half-day rental remains unchanged
+    rentalFee =
+        rate * days;
+
+}
 
     const deliveryFee =
     calculateDeliveryFee(
