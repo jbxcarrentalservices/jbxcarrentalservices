@@ -652,17 +652,19 @@ if(freeRentalDays > 0){
 
 }
 
-    const total =
+   const total =
 
-        rentalFee +
+    rentalFee +
 
-        deliveryFee +
+    finalDeliveryFee +
 
-        pickupFee +
+    finalPickupFee +
 
-        carWashFee +
+    finalCarWashFee +
 
-        lateNightFee;
+    lateNightFee -
+
+    longRentalDiscount;
 
   const step1EstimatedTotal = rentalFee;
 
