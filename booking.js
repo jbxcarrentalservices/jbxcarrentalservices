@@ -551,24 +551,21 @@ const step2PickupFee =
 const step2AdditionalTotal =
     document.getElementById("step2AdditionalTotal");
 
-if(step2DeliveryFee){
-
-    step2DeliveryFee.textContent =
-        "₱" + deliveryFee.toLocaleString();
+step2DeliveryFee.textContent =
+    "₱" + finalDeliveryFee.toLocaleString();
 
 }
 
 if(step2PickupFee){
 
-    step2PickupFee.textContent =
-        "₱" + pickupFee.toLocaleString();
-
+   step2PickupFee.textContent =
+    "₱" + finalPickupFee.toLocaleString();
 }
 
 if(step2AdditionalTotal){
 
-    step2AdditionalTotal.textContent =
-        "₱" + (deliveryFee + pickupFee).toLocaleString();
+   step2AdditionalTotal.textContent =
+    "₱" + (finalDeliveryFee + finalPickupFee).toLocaleString();
 
 }
 
