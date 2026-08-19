@@ -590,8 +590,67 @@ if(step2AdditionalTotal){
     const lateNightFee =
     pickupLateNight + returnLateNight;
 
-    const carWashFee =
+   // -------------------------
+// PROMOTIONS
+// -------------------------
+
+let finalCarWashFee =
     CONFIG.carWashFee;
+
+let finalDeliveryFee =
+    deliveryFee;
+
+let finalPickupFee =
+    pickupFee;
+
+let longRentalDiscount =
+    0;
+
+const promo =
+    PROMOS[vehicle];
+
+// Free car wash
+if(days >= promo.freeCarWashDays){
+
+    finalCarWashFee = 0;
+
+}
+
+// Free delivery
+if(
+    days >= promo.freeDeliveryDays &&
+    province === "Metro Manila" &&
+    document.getElementById("deliveryMethod").value === "delivery"
+){
+
+    finalDeliveryFee = 0;
+
+}
+
+// Free pickup
+if(
+    days >= promo.freePickupDays &&
+    province === "Metro Manila" &&
+    document.getElementById("pickupMethod").value === "pickup"
+){
+
+    finalPickupFee = 0;
+
+}
+
+// -------------------------
+// 7-DAY RENTAL DISCOUNT
+// -------------------------
+
+const freeRentalDays =
+    Math.floor(days / 7);
+
+if(freeRentalDays > 0){
+
+    longRentalDiscount =
+        freeRentalDays * rate;
+
+}
 
     const total =
 
