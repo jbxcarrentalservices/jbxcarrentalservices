@@ -130,8 +130,7 @@ const GROUP_A = [
 "Nueva Ecija",
 "Bulacan",
 "Laguna",
-"Zambales",
-"Aurora"
+"Zambales"
 ];
 
 const GROUP_B = [
@@ -141,7 +140,8 @@ const GROUP_B = [
 "La Union",
 "Benguet",
 "Quezon",
-"Camarines Norte"
+"Camarines Norte",
+"Aurora"
 ];
 
 const GROUP_C = [
