@@ -623,10 +623,19 @@ if(rentalType === "regular"){
             (end - start) / (1000 * 60 * 60);
 
         const fullDays =
-            Math.floor(totalHours / 24);
+    Math.floor(totalHours / 24);
 
-        excessHours =
-            Math.floor(totalHours % 24);
+const remainingHours =
+    Math.floor(totalHours % 24);
+
+const remainingMinutes =
+    Math.round(
+        (totalHours - Math.floor(totalHours)) * 60
+    );
+
+excessHours =
+    remainingHours +
+    (remainingMinutes > 15 ? 1 : 0);
 
         rentalFee =
             fullDays * rate;
