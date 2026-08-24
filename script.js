@@ -513,6 +513,11 @@ if(reviewForm){
         reviewFormMessage.style.visibility = "visible";
         reviewFormMessage.style.opacity = "1";
 
+        setTimeout(() => {
+
+    closeReviewForm();
+
+}, 1500);
 
         /*
          * Reset the form after submission.
