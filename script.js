@@ -6,8 +6,13 @@ function openPopup(car){
     if(car=="vios"){
 
         gallery=[
-            "Images/vios.png",
-            "Images/vios-actual.jpg"
+            "Images/vios1.jpg",
+            "Images/vios2.jpg",
+            "Images/vios3.jpg",
+            "Images/vios4.jpg",
+            "Images/vios5.jpg",
+            "Images/vios6.jpg",
+            "Images/vios7.jpg"
         ];
 
     }
