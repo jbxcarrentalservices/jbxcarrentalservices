@@ -517,7 +517,7 @@ if(reviewForm){
 
     closeReviewForm();
 
-}, 1500);
+}, 2500);
 
         /*
          * Reset the form after submission.
