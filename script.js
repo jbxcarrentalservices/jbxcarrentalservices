@@ -391,3 +391,141 @@ document.addEventListener(
 
     }
 );
+
+/* ================================
+   SUBMIT CUSTOMER REVIEW
+================================ */
+
+const reviewForm =
+    document.getElementById("reviewForm");
+
+const reviewFormMessage =
+    document.getElementById("reviewFormMessage");
+
+
+if(reviewForm){
+
+    reviewForm.addEventListener("submit", async function(event){
+
+        event.preventDefault();
+
+
+        const name =
+            document.getElementById("reviewName").value.trim();
+
+        const rating =
+            Number(document.getElementById("reviewRating").value);
+
+        const review =
+            document.getElementById("reviewText").value.trim();
+
+
+        if(!name || !review){
+
+            reviewFormMessage.textContent =
+                "Please complete all required fields.";
+
+            return;
+
+        }
+
+
+        if(rating < 1 || rating > 5){
+
+            reviewFormMessage.textContent =
+                "Please select a rating.";
+
+            return;
+
+        }
+
+
+        const submitButton =
+            reviewForm.querySelector(".submit-review-btn");
+
+
+        submitButton.disabled = true;
+
+        submitButton.textContent =
+            "Submitting...";
+
+
+        reviewFormMessage.textContent = "";
+
+
+        try{
+
+            await fetch(REVIEW_API, {
+
+                method: "POST",
+
+                mode: "no-cors",
+
+                headers: {
+                    "Content-Type":
+                        "text/plain;charset=utf-8"
+                },
+
+                body: JSON.stringify({
+
+                    name: name,
+
+                    rating: rating,
+
+                    review: review
+
+                })
+
+            });
+
+
+            reviewFormMessage.textContent =
+                "Thank you! Your review has been submitted for approval.";
+
+
+            reviewForm.reset();
+
+
+            document.getElementById(
+                "reviewRating"
+            ).value = "5";
+
+
+            document.querySelectorAll(
+                ".rating-picker button"
+            ).forEach(button => {
+
+                button.classList.remove("selected");
+
+            });
+
+
+            setTimeout(function(){
+
+                closeReviewForm();
+
+            }, 2500);
+
+
+        }catch(error){
+
+            console.error(
+                "Review submission error:",
+                error
+            );
+
+
+            reviewFormMessage.textContent =
+                "Something went wrong. Please try again.";
+
+        }
+
+
+        submitButton.disabled = false;
+
+        submitButton.textContent =
+            "Submit Review";
+
+    });
+
+}
