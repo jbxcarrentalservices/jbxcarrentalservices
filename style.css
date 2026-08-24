@@ -1263,9 +1263,12 @@ nav a{
 }
 
 .review-form-message {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+    display: none;
     margin-top: 15px;
     text-align: center;
+    font-size: 14px;
+}
+
+.review-form-message.show {
+    display: block;
 }
