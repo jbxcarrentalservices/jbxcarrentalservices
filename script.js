@@ -479,8 +479,12 @@ if(reviewForm){
             });
 
 
-           reviewFormMessage.textContent =
+         reviewFormMessage.textContent =
     "Thank you! Your review has been submitted for approval.";
+
+reviewFormMessage.style.display = "block";
+reviewFormMessage.style.visibility = "visible";
+reviewFormMessage.style.opacity = "1";
 
 reviewFormMessage.style.display = "block";
 
