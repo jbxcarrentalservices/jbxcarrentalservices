@@ -227,16 +227,14 @@ async function loadReviews(){
 function displayReviews(reviews){
 
     const container =
-        document.getElementById("reviewsContainer");
+        document.getElementById("reviewList");
 
     if(!container) return;
 
     container.innerHTML = "";
 
-    if(reviews.length === 0){
 
-        container.innerHTML =
-            "<p>No customer reviews yet.</p>";
+    if(reviews.length === 0){
 
         updateReviewSummary([]);
 
@@ -252,9 +250,13 @@ function displayReviews(reviews){
         card.className = "review-card";
 
 
+        const rating =
+            Math.min(5, Math.max(1, Number(review.rating)));
+
+
         const stars =
-            "★".repeat(Number(review.rating)) +
-            "☆".repeat(5 - Number(review.rating));
+            "★".repeat(rating) +
+            "☆".repeat(5 - rating);
 
 
         const date = review.date
@@ -294,19 +296,30 @@ function updateReviewSummary(reviews){
     const ratingElement =
         document.getElementById("averageRating");
 
+    const starsElement =
+        document.getElementById("averageStars");
+
     const countElement =
         document.getElementById("reviewCount");
 
 
-    if(!ratingElement || !countElement) return;
+    if(!ratingElement ||
+       !starsElement ||
+       !countElement) return;
 
 
     if(reviews.length === 0){
 
         ratingElement.textContent = "5.0";
 
-        countElement.textContent =
-            "0 customer reviews";
+        starsElement.textContent = "★★★★★";
+
+        starsElement.setAttribute(
+            "aria-label",
+            "5 out of 5 stars"
+        );
+
+        countElement.textContent = "0";
 
         return;
 
@@ -314,6 +327,7 @@ function updateReviewSummary(reviews){
 
 
     let total = 0;
+
 
     reviews.forEach(review => {
 
@@ -323,17 +337,31 @@ function updateReviewSummary(reviews){
 
 
     const average =
-        (total / reviews.length).toFixed(1);
+        total / reviews.length;
 
 
-    ratingElement.textContent = average;
+    ratingElement.textContent =
+        average.toFixed(1);
+
+
+    const rounded =
+        Math.round(average);
+
+
+    starsElement.textContent =
+        "★".repeat(rounded) +
+        "☆".repeat(5 - rounded);
+
+
+    starsElement.setAttribute(
+        "aria-label",
+        average.toFixed(1) +
+        " out of 5 stars"
+    );
 
 
     countElement.textContent =
-        reviews.length +
-        (reviews.length === 1
-            ? " customer review"
-            : " customer reviews");
+        reviews.length;
 
 }
 
@@ -342,19 +370,24 @@ function updateReviewSummary(reviews){
 
 function escapeHTML(text){
 
-    const div = document.createElement("div");
+    const div =
+        document.createElement("div");
 
-    div.textContent = text || "";
+    div.textContent =
+        text || "";
 
     return div.innerHTML;
 
 }
 
 
-/* LOAD WHEN PAGE OPENS */
+/* LOAD REVIEWS WHEN PAGE OPENS */
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
 
-    loadReviews();
+        loadReviews();
 
-});
+    }
+);
