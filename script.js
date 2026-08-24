@@ -529,3 +529,102 @@ if(reviewForm){
     });
 
 }
+
+/* ================================
+   REVIEW FORM
+================================ */
+
+function openReviewForm(){
+
+    const formWrap =
+        document.getElementById("reviewFormWrap");
+
+    if(!formWrap) return;
+
+    formWrap.style.display = "flex";
+
+    formWrap.setAttribute("aria-hidden", "false");
+
+}
+
+
+/* CLOSE REVIEW FORM */
+
+function closeReviewForm(){
+
+    const formWrap =
+        document.getElementById("reviewFormWrap");
+
+    if(!formWrap) return;
+
+    formWrap.style.display = "none";
+
+    formWrap.setAttribute("aria-hidden", "true");
+
+}
+
+
+/* STAR RATING */
+
+document.querySelectorAll(
+    ".rating-picker button"
+).forEach(button => {
+
+    button.addEventListener("click", function(){
+
+        const rating =
+            Number(this.dataset.rating);
+
+
+        document.getElementById(
+            "reviewRating"
+        ).value = rating;
+
+
+        document.querySelectorAll(
+            ".rating-picker button"
+        ).forEach(star => {
+
+            const starRating =
+                Number(star.dataset.rating);
+
+
+            if(starRating <= rating){
+
+                star.classList.add("selected");
+
+            }else{
+
+                star.classList.remove("selected");
+
+            }
+
+        });
+
+    });
+
+});
+
+
+/* CLOSE WHEN CLICKING OUTSIDE THE FORM */
+
+const reviewFormWrap =
+    document.getElementById("reviewFormWrap");
+
+
+if(reviewFormWrap){
+
+    reviewFormWrap.addEventListener(
+        "click",
+        function(event){
+
+            if(event.target === reviewFormWrap){
+
+                closeReviewForm();
+
+            }
+
+        }
+    );
+
+}
