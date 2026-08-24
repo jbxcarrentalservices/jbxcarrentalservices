@@ -479,16 +479,16 @@ if(reviewForm){
             });
 
 
-            reviewFormMessage.textContent =
-                "Thank you! Your review has been submitted for approval.";
+           reviewFormMessage.textContent =
+    "Thank you! Your review has been submitted for approval.";
 
+reviewFormMessage.style.display = "block";
 
-            reviewForm.reset();
+reviewFormMessage.style.color = "#ffffff";
 
+reviewForm.reset();
 
-            document.getElementById(
-                "reviewRating"
-            ).value = "5";
+document.getElementById("reviewRating").value = "5";
 
 
             document.querySelectorAll(
@@ -498,14 +498,6 @@ if(reviewForm){
                 button.classList.remove("selected");
 
             });
-
-
-            setTimeout(function(){
-
-                closeReviewForm();
-
-            }, 2500);
-
 
         }catch(error){
 
