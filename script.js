@@ -192,3 +192,169 @@ faqs.forEach(question=>{
     });
 
 });
+
+/* ================================
+   CUSTOMER REVIEWS
+================================ */
+
+const REVIEW_API =
+"https://script.google.com/macros/s/AKfycbz4rpaw0G6aH8BOJZJu0exNeam-Cm35XQ_71VFR_SQ4DJgnHdUTO-0lnd00mi1F6ezN/exec";
+
+
+/* LOAD REVIEWS */
+
+async function loadReviews(){
+
+    try{
+
+        const response = await fetch(REVIEW_API);
+
+        const reviews = await response.json();
+
+        displayReviews(reviews);
+
+    }catch(error){
+
+        console.error("Error loading reviews:", error);
+
+    }
+
+}
+
+
+/* DISPLAY REVIEWS */
+
+function displayReviews(reviews){
+
+    const container =
+        document.getElementById("reviewsContainer");
+
+    if(!container) return;
+
+    container.innerHTML = "";
+
+    if(reviews.length === 0){
+
+        container.innerHTML =
+            "<p>No customer reviews yet.</p>";
+
+        updateReviewSummary([]);
+
+        return;
+
+    }
+
+
+    reviews.forEach(review => {
+
+        const card = document.createElement("div");
+
+        card.className = "review-card";
+
+
+        const stars =
+            "★".repeat(Number(review.rating)) +
+            "☆".repeat(5 - Number(review.rating));
+
+
+        const date = review.date
+            ? new Date(review.date).toLocaleDateString()
+            : "";
+
+
+        card.innerHTML = `
+
+            <div class="review-stars">
+                ${stars}
+            </div>
+
+            <h4>${escapeHTML(review.name)}</h4>
+
+            <p>${escapeHTML(review.review)}</p>
+
+            <small>${date}</small>
+
+        `;
+
+
+        container.appendChild(card);
+
+    });
+
+
+    updateReviewSummary(reviews);
+
+}
+
+
+/* UPDATE RATING SUMMARY */
+
+function updateReviewSummary(reviews){
+
+    const ratingElement =
+        document.getElementById("averageRating");
+
+    const countElement =
+        document.getElementById("reviewCount");
+
+
+    if(!ratingElement || !countElement) return;
+
+
+    if(reviews.length === 0){
+
+        ratingElement.textContent = "5.0";
+
+        countElement.textContent =
+            "0 customer reviews";
+
+        return;
+
+    }
+
+
+    let total = 0;
+
+    reviews.forEach(review => {
+
+        total += Number(review.rating);
+
+    });
+
+
+    const average =
+        (total / reviews.length).toFixed(1);
+
+
+    ratingElement.textContent = average;
+
+
+    countElement.textContent =
+        reviews.length +
+        (reviews.length === 1
+            ? " customer review"
+            : " customer reviews");
+
+}
+
+
+/* SECURITY */
+
+function escapeHTML(text){
+
+    const div = document.createElement("div");
+
+    div.textContent = text || "";
+
+    return div.innerHTML;
+
+}
+
+
+/* LOAD WHEN PAGE OPENS */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    loadReviews();
+
+});
