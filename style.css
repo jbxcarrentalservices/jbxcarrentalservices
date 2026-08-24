@@ -1281,3 +1281,9 @@ nav a{
     font-weight: 600;
     color: #2e8b57;
 }
+
+.review-note {
+    font-size: 13px;
+    opacity: 0.75;
+    margin-top: 8px;
+}
