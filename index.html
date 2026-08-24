@@ -71,6 +71,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
 <a href="#">HOME</a>
 <a href="#cars">OUR CARS</a>
 <a href="#cars">RATES</a>
+<a href="#reviews">REVIEWS</a>
 <a href="#requirements">REQUIREMENTS</a>
 <a href="#location">LOCATION</a>
 <a href="#faq">FAQ</a>
@@ -244,6 +245,59 @@ Rates may vary on holidays and long-term rentals.
 <p>We prioritize your comfort and satisfaction.</p>
 
 </div>
+
+</section>
+
+
+<section id="reviews" class="reviews">
+
+    <div class="reviews-header">
+        <span class="reviews-eyebrow">CUSTOMER REVIEWS</span>
+        <h2>What Our Customers Say</h2>
+        <p>Real experiences from customers who rented with JBX Car Rental Services.</p>
+    </div>
+
+    <div class="reviews-summary">
+        <div class="reviews-rating">
+            <strong id="averageRating">5.0</strong>
+            <div class="stars" id="averageStars" aria-label="5 out of 5 stars">★★★★★</div>
+            <span><span id="reviewCount">0</span> customer reviews</span>
+        </div>
+        <button type="button" class="write-review-btn" onclick="openReviewForm()">
+            <i class="fa-solid fa-pen"></i> Write a Review
+        </button>
+    </div>
+
+    <div id="reviewList" class="review-grid"></div>
+
+    <div id="reviewFormWrap" class="review-form-wrap" aria-hidden="true">
+        <div class="review-form-card">
+            <button type="button" class="review-form-close" onclick="closeReviewForm()" aria-label="Close">&times;</button>
+            <h3>Share Your Experience</h3>
+            <p>Your review will be sent for approval before it appears publicly.</p>
+
+            <form id="reviewForm">
+                <label for="reviewName">Your Name</label>
+                <input type="text" id="reviewName" name="name" maxlength="60" placeholder="Enter your name" required>
+
+                <label>Your Rating</label>
+                <div class="rating-picker" role="radiogroup" aria-label="Choose your rating">
+                    <button type="button" data-rating="1" aria-label="1 star">★</button>
+                    <button type="button" data-rating="2" aria-label="2 stars">★</button>
+                    <button type="button" data-rating="3" aria-label="3 stars">★</button>
+                    <button type="button" data-rating="4" aria-label="4 stars">★</button>
+                    <button type="button" data-rating="5" aria-label="5 stars">★</button>
+                </div>
+                <input type="hidden" id="reviewRating" name="rating" value="5">
+
+                <label for="reviewText">Your Review</label>
+                <textarea id="reviewText" name="review" rows="5" maxlength="500" placeholder="Tell us about your rental experience..." required></textarea>
+
+                <button type="submit" class="submit-review-btn">Submit Review</button>
+                <p id="reviewFormMessage" class="review-form-message" role="status"></p>
+            </form>
+        </div>
+    </div>
 
 </section>
 
