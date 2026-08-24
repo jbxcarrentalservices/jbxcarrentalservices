@@ -264,19 +264,23 @@ function displayReviews(reviews){
             : "";
 
 
-        card.innerHTML = `
+     card.innerHTML = `
 
-            <div class="review-stars">
-                ${stars}
-            </div>
+    <div class="review-stars">
+        ${stars}
+    </div>
 
-            <h4>${escapeHTML(review.name)}</h4>
+    <h4>${escapeHTML(review.name)}</h4>
 
-            <p>${escapeHTML(review.review)}</p>
+    <div class="verified-rental">
+        ✓ Verified Rental
+    </div>
 
-            <small>${date}</small>
+    <p>${escapeHTML(review.review)}</p>
 
-        `;
+    <small>${date}</small>
+
+`;
 
 
         container.appendChild(card);
