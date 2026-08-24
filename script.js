@@ -405,7 +405,7 @@ const reviewFormMessage =
 
 if(reviewForm){
 
-    reviewForm.addEventListener("submit", async function(event){
+    reviewForm.addEventListener("submit", function(event){
 
         event.preventDefault();
 
@@ -425,6 +425,8 @@ if(reviewForm){
             reviewFormMessage.textContent =
                 "Please complete all required fields.";
 
+            reviewFormMessage.style.display = "block";
+
             return;
 
         }
@@ -434,6 +436,8 @@ if(reviewForm){
 
             reviewFormMessage.textContent =
                 "Please select a rating.";
+
+            reviewFormMessage.style.display = "block";
 
             return;
 
@@ -450,71 +454,84 @@ if(reviewForm){
             "Submitting...";
 
 
-        reviewFormMessage.textContent = "";
+        reviewFormMessage.textContent =
+            "Submitting your review...";
+
+        reviewFormMessage.style.display = "block";
+        reviewFormMessage.style.visibility = "visible";
+        reviewFormMessage.style.opacity = "1";
 
 
-        try{
+        const reviewData = {
 
-            await fetch(REVIEW_API, {
+            name: name,
 
-                method: "POST",
+            rating: rating,
 
-                mode: "no-cors",
+            review: review
 
-                headers: {
-                    "Content-Type":
-                        "text/plain;charset=utf-8"
-                },
-
-                body: JSON.stringify({
-
-                    name: name,
-
-                    rating: rating,
-
-                    review: review
-
-                })
-
-            });
+        };
 
 
-         reviewFormMessage.textContent =
-    "Thank you! Your review has been submitted for approval.";
+        /*
+         * Send review to Google Apps Script.
+         * We don't wait for the response because
+         * this is a no-cors request.
+         */
 
-reviewFormMessage.style.display = "block";
-reviewFormMessage.style.visibility = "visible";
-reviewFormMessage.style.opacity = "1";
+        fetch(REVIEW_API, {
 
-reviewFormMessage.style.display = "block";
+            method: "POST",
 
-reviewFormMessage.style.color = "#ffffff";
+            mode: "no-cors",
 
-reviewForm.reset();
+            headers: {
+                "Content-Type":
+                    "text/plain;charset=utf-8"
+            },
 
-document.getElementById("reviewRating").value = "5";
+            body: JSON.stringify(reviewData)
 
-
-            document.querySelectorAll(
-                ".rating-picker button"
-            ).forEach(button => {
-
-                button.classList.remove("selected");
-
-            });
-
-        }catch(error){
+        }).catch(error => {
 
             console.error(
                 "Review submission error:",
                 error
             );
 
+        });
 
-            reviewFormMessage.textContent =
-                "Something went wrong. Please try again.";
 
-        }
+        /*
+         * Show success message immediately.
+         */
+
+        reviewFormMessage.textContent =
+            "Thank you! Your review has been submitted for approval.";
+
+        reviewFormMessage.style.display = "block";
+        reviewFormMessage.style.visibility = "visible";
+        reviewFormMessage.style.opacity = "1";
+
+
+        /*
+         * Reset the form after submission.
+         */
+
+        reviewForm.reset();
+
+        document.getElementById(
+            "reviewRating"
+        ).value = "5";
+
+
+        document.querySelectorAll(
+            ".rating-picker button"
+        ).forEach(button => {
+
+            button.classList.remove("selected");
+
+        });
 
 
         submitButton.disabled = false;
