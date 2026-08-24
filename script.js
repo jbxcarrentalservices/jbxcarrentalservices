@@ -15,8 +15,12 @@ function openPopup(car){
     if(car=="xpander"){
 
         gallery=[
-            "Images/xpander-gray.png",
-            "Images/xpander-actual.jpg"
+            "Images/xpander-actual-1.jpg",
+            "Images/xpander-actual-2.jpg",
+            "Images/xpander-actual-3.jpg",
+            "Images/xpander-actual-4.jpg",
+            "Images/xpander-actual-5.jpg",
+            "Images/xpander-actual-6.jpg"
         ];
 
     }
