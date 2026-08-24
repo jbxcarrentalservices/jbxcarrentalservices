@@ -1272,3 +1272,12 @@ nav a{
 .review-form-message.show {
     display: block;
 }
+
+.verified-rental {
+    display: inline-block;
+    margin-top: 3px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #2e8b57;
+}
