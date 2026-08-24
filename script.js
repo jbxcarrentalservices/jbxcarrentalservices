@@ -646,3 +646,27 @@ if(reviewFormWrap){
     );
 
 }
+
+/* ================================
+   PRIVATE REVIEW LINK
+================================ */
+
+function checkReviewLink(){
+
+    if(window.location.hash === "#review"){
+
+        openReviewForm();
+
+    }
+
+}
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        checkReviewLink();
+
+    }
+);
