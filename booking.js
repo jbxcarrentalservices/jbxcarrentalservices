@@ -1188,6 +1188,8 @@ if(sumTotal){
         "₱" +
         total.toLocaleString();
 }
+   
+}
 
 // -------------------------
 // PICKUP DATE MINIMUM
