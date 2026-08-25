@@ -303,6 +303,8 @@ async function getBookedDates() {
 
 calendarData = data;
 
+calendarLoaded = true;
+
 console.log("Calendar Events:", data);
 
 return data.items || [];
@@ -311,7 +313,8 @@ return data.items || [];
 
         console.error(err);
 
-        return [];
+        calendarLoaded = false;
+return [];
 
     }
 
