@@ -9,6 +9,7 @@ let vehicleIsBooked = false;
 ========================================== */
 
 let calendarData = {};
+let calendarLoaded = false;
 
 const CALENDAR_ID = "jbxcarrentalservices@gmail.com";
 const GOOGLE_API_KEY = "AIzaSyDjGmJn7gTvpENVph4I8H9Z_its_a2K-e4";
