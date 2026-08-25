@@ -38,6 +38,24 @@ async function checkVehicleAvailability(){
     const notice =
         document.getElementById("availabilityNotice");
 
+   // Wait for Google Calendar data to finish loading
+if(!calendarLoaded){
+
+    if(notice){
+
+        notice.style.display = "block";
+        notice.style.background = "#f7f7f7";
+        notice.style.color = "#555";
+
+        notice.innerHTML =
+            "⏳ Checking vehicle availability...";
+
+    }
+
+    await getBookedDates();
+
+}
+
     // Wait until all date and time fields are entered
     if(
         !pickup ||
