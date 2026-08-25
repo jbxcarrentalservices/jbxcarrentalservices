@@ -988,7 +988,6 @@ function updateReturnDateMin(){
 const fields = [
 
     "vehicle",
-    "rentalType",
     "province",
     "pickupDate",
     "returnDate",
