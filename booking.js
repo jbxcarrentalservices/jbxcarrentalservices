@@ -1163,7 +1163,6 @@ function updateReturnDateMin(){
 // -------------------------
 
 const fields = [
-
     "vehicle",
     "province",
     "pickupDate",
@@ -1174,7 +1173,6 @@ const fields = [
     "deliveryCity",
     "pickupMethod",
     "pickupCity"
-
 ];
 
 fields.forEach(id => {
@@ -1184,14 +1182,14 @@ fields.forEach(id => {
 
     if(!element) return;
 
+
     element.addEventListener("change", () => {
 
-        // Always update the price/summary
+        // Update price and summary
         calculateBooking();
 
 
-        // Check whether all availability
-        // information has been entered
+        // Get current booking fields
         const vehicle =
             document.getElementById("vehicle").value;
 
@@ -1208,10 +1206,8 @@ fields.forEach(id => {
             document.getElementById("returnTime").value;
 
 
-        /*
-         * Don't check availability until
-         * ALL required information exists.
-         */
+        // Only check availability when
+        // all required information is complete
         if(
             vehicle &&
             pickupDate &&
@@ -1226,13 +1222,15 @@ fields.forEach(id => {
 
     });
 
-});
 
-       if(id=="pickupDate"){
+    // Keep the minimum return-date rule
+    if(id === "pickupDate"){
 
-    element.addEventListener("change", updateReturnDateMin);
+        element.addEventListener(
+            "change",
+            updateReturnDateMin
+        );
 
-}
     }
 
 });
