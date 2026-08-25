@@ -1252,9 +1252,9 @@ const fields = [
 // UPDATE PRICE + AVAILABILITY
 // -------------------------
 
-function updateBookingPreview(){
+async function updateBookingPreview(){
 
-    // Always update the price
+    // Update price preview first
     calculateBooking();
 
 
@@ -1275,7 +1275,8 @@ function updateBookingPreview(){
         document.getElementById("returnTime").value;
 
 
-    // Don't check until everything is complete
+    // Don't check availability until
+    // all required fields are complete
     if(
         !vehicle ||
         !pickupDate ||
@@ -1283,15 +1284,16 @@ function updateBookingPreview(){
         !pickupTime ||
         !returnTime
     ){
+
         return;
+
     }
 
 
-    // Check availability
-    checkVehicleAvailability();
+    // WAIT for availability check to finish
+    await checkVehicleAvailability();
 
 }
-
 
 // -------------------------
 // LISTEN FOR CHANGES
