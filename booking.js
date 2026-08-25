@@ -1418,8 +1418,8 @@ I would like to book a vehicle.
 Vehicle:
 ${vehicle}
 
-Rental Type:
-${rentalType}
+Rental Duration:
+${document.getElementById("sumRental").textContent}
 
 Pickup Date:
 ${document.getElementById("pickupDate").value}
