@@ -530,6 +530,49 @@ function validateStep2(){
 }
 
 // -------------------------
+// AUTOMATIC RENTAL TYPE
+// -------------------------
+
+function getRentalType(){
+
+    const pickupDate =
+        document.getElementById("pickupDate").value;
+
+    const returnDate =
+        document.getElementById("returnDate").value;
+
+    const pickupTime =
+        document.getElementById("pickupTime").value;
+
+    const returnTime =
+        document.getElementById("returnTime").value;
+
+    if(
+        !pickupDate ||
+        !returnDate ||
+        !pickupTime ||
+        !returnTime
+    ){
+        return "";
+    }
+
+    const start =
+        new Date(`${pickupDate}T${pickupTime}`);
+
+    const end =
+        new Date(`${returnDate}T${returnTime}`);
+
+    const totalHours =
+        (end - start) / (1000 * 60 * 60);
+
+    if(totalHours <= 12){
+        return "half";
+    }
+
+    return "regular";
+}
+
+// -------------------------
 // RENTAL DAYS
 // -------------------------
 
