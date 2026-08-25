@@ -651,25 +651,10 @@ function getRentalDuration(){
 function calculateBooking(){
 
     const vehicle =
-document.getElementById("vehicle").value;
-
-const rentalType =
-getRentalType();
+        document.getElementById("vehicle").value;
 
     const province =
-    document.getElementById("province").value;
-
-    const rate =
-    getRentalRate(vehicle,rentalType,province);
-
-   const days =
-    getRentalDays();
-
-let rentalFee = 0;
-let excessHours = 0;
-let excessHourFee = 0;
-
-if(rentalType === "regular"){
+        document.getElementById("province").value;
 
     const pickupDate =
         document.getElementById("pickupDate").value;
@@ -683,6 +668,79 @@ if(rentalType === "regular"){
     const returnTime =
         document.getElementById("returnTime").value;
 
+
+    /*
+     * No vehicle selected yet
+     */
+    if(!vehicle){
+
+        const preview =
+            document.getElementById("step1EstimatedTotal");
+
+        if(preview){
+            preview.textContent = "₱0";
+        }
+
+        document.getElementById("sumVehicle").textContent =
+            "Select Vehicle";
+
+        document.getElementById("sumRental").textContent =
+            "-";
+
+        document.getElementById("sumDestination").textContent =
+            province || "-";
+
+        document.getElementById("sumDays").textContent =
+            "0";
+
+        document.getElementById("sumRentalFee").textContent =
+            "₱0";
+
+        document.getElementById("sumDelivery").textContent =
+            "₱0";
+
+        document.getElementById("sumPickup").textContent =
+            "₱0";
+
+        document.getElementById("sumCarWash").textContent =
+            "₱0";
+
+        document.getElementById("sumSpecialDiscount").textContent =
+            "₱0";
+
+        document.getElementById("sumLateNight").textContent =
+            "₱0";
+
+        document.getElementById("sumTotal").textContent =
+            "₱0";
+
+        return;
+    }
+
+
+    /*
+     * Use the regular daily rate.
+     *
+     * Rental Type was removed from the form,
+     * so the system now automatically determines
+     * the rental duration from date + time.
+     */
+    const rate =
+        getRentalRate(
+            vehicle,
+            "regular",
+            province
+        );
+
+
+    /*
+     * Calculate exact rental duration
+     */
+    let totalHours = 0;
+    let fullDays = 0;
+    let remainingHours = 0;
+    let remainingMinutes = 0;
+
     if(
         pickupDate &&
         returnDate &&
@@ -691,98 +749,413 @@ if(rentalType === "regular"){
     ){
 
         const start =
-            new Date(`${pickupDate}T${pickupTime}`);
+            new Date(
+                `${pickupDate}T${pickupTime}`
+            );
 
         const end =
-            new Date(`${returnDate}T${returnTime}`);
+            new Date(
+                `${returnDate}T${returnTime}`
+            );
 
-        const totalHours =
-            (end - start) / (1000 * 60 * 60);
+        totalHours =
+            (end - start) /
+            (1000 * 60 * 60);
 
-        const fullDays =
-    Math.floor(totalHours / 24);
 
-const remainingHours =
-    Math.floor(totalHours % 24);
+        /*
+         * Prevent negative duration
+         */
+        if(totalHours < 0){
+            totalHours = 0;
+        }
 
-const remainingMinutes =
-    Math.round(
-        (totalHours - Math.floor(totalHours)) * 60
-    );
 
-excessHours =
-    remainingHours +
-    (remainingMinutes > 15 ? 1 : 0);
+        fullDays =
+            Math.floor(totalHours / 24);
 
-        rentalFee =
-            fullDays * rate;
+        remainingHours =
+            Math.floor(totalHours % 24);
 
-        if(excessHours > 0){
+        remainingMinutes =
+            Math.round(
+                (totalHours -
+                Math.floor(totalHours)) * 60
+            );
 
-            const excessRates =
-                vehicle === "vios"
-                    ? VIOS_EXCESS_RATES
-                    : XPANDER_EXCESS_RATES;
+    }
 
-            excessHourFee =
-                excessRates[excessHours] || 0;
+
+    /*
+     * Rental duration used for promotions
+     *
+     * Example:
+     * 24 hours       = 1 day
+     * 36 hours       = 1.5 days
+     * 50 hours       = 2 days + 2 hours
+     */
+    let days = fullDays;
+
+    if(
+        totalHours > 0 &&
+        days < 1
+    ){
+        days = 1;
+    }
+
+
+    /*
+     * Calculate rental fee
+     */
+    let rentalFee = 0;
+
+    let excessHours =
+        remainingHours;
+
+    /*
+     * Existing pricing uses the excess-hour
+     * table. Minutes greater than 15 minutes
+     * are counted as another hour.
+     */
+    if(remainingMinutes > 15){
+        excessHours++;
+    }
+
+
+    rentalFee =
+        fullDays * rate;
+
+
+    if(excessHours > 0){
+
+        const excessRates =
+            vehicle === "vios"
+                ? VIOS_EXCESS_RATES
+                : XPANDER_EXCESS_RATES;
+
+        rentalFee +=
+            excessRates[excessHours] || 0;
+
+    }
+
+
+    /*
+     * If dates/times are not complete yet,
+     * keep rental fee at ₱0.
+     */
+    if(
+        !pickupDate ||
+        !returnDate ||
+        !pickupTime ||
+        !returnTime
+    ){
+
+        rentalFee = 0;
+
+        days = 0;
+
+        excessHours = 0;
+
+    }
+
+
+    /*
+     * Delivery / Pickup fees
+     */
+    const deliveryFee =
+        calculateDeliveryFee(
+            document.getElementById("deliveryMethod").value,
+            document.getElementById("deliveryCity").value
+        );
+
+    const pickupFee =
+        calculatePickupFee(
+            document.getElementById("pickupMethod").value,
+            document.getElementById("pickupCity").value
+        );
+
+
+    /*
+     * Step 2 fee preview
+     */
+    const step2DeliveryFee =
+        document.getElementById("step2DeliveryFee");
+
+    const step2PickupFee =
+        document.getElementById("step2PickupFee");
+
+    const step2AdditionalTotal =
+        document.getElementById("step2AdditionalTotal");
+
+
+    if(step2DeliveryFee){
+
+        step2DeliveryFee.textContent =
+            "₱" +
+            deliveryFee.toLocaleString();
+
+    }
+
+
+    if(step2PickupFee){
+
+        step2PickupFee.textContent =
+            "₱" +
+            pickupFee.toLocaleString();
+
+    }
+
+
+    if(step2AdditionalTotal){
+
+        step2AdditionalTotal.textContent =
+            "₱" +
+            (
+                deliveryFee +
+                pickupFee
+            ).toLocaleString();
+
+    }
+
+
+    /*
+     * Late-night fees
+     */
+    const pickupLateNight =
+        calculateLateNightFee(
+            pickupTime
+        );
+
+    const returnLateNight =
+        calculateLateNightFee(
+            returnTime
+        );
+
+    const lateNightFee =
+        pickupLateNight +
+        returnLateNight;
+
+
+    /*
+     * Promotions
+     */
+    let finalCarWashFee =
+        CONFIG.carWashFee;
+
+    let finalDeliveryFee =
+        deliveryFee;
+
+    let finalPickupFee =
+        pickupFee;
+
+    let longRentalDiscount =
+        0;
+
+
+    const promo =
+        PROMOS[vehicle];
+
+
+    /*
+     * Free car wash
+     */
+    if(
+        promo &&
+        days >= promo.freeCarWashDays
+    ){
+
+        finalCarWashFee = 0;
+
+    }
+
+
+    /*
+     * Free delivery
+     */
+    if(
+        promo &&
+        days >= promo.freeDeliveryDays &&
+        province === "Metro Manila" &&
+        document.getElementById("deliveryMethod").value === "delivery"
+    ){
+
+        finalDeliveryFee = 0;
+
+    }
+
+
+    /*
+     * Free pickup
+     */
+    if(
+        promo &&
+        days >= promo.freePickupDays &&
+        province === "Metro Manila" &&
+        document.getElementById("pickupMethod").value === "pickup"
+    ){
+
+        finalPickupFee = 0;
+
+    }
+
+
+    /*
+     * 7-day rental discount
+     */
+    const freeRentalDays =
+        Math.floor(days / 7);
+
+
+    if(freeRentalDays > 0){
+
+        longRentalDiscount =
+            freeRentalDays * rate;
+
+    }
+
+
+    /*
+     * Total
+     */
+    const total =
+        rentalFee +
+        finalDeliveryFee +
+        finalPickupFee +
+        finalCarWashFee +
+        lateNightFee -
+        longRentalDiscount;
+
+
+    /*
+     * STEP 1 PRICE PREVIEW
+     */
+    const step1Preview =
+        document.getElementById(
+            "step1EstimatedTotal"
+        );
+
+    if(step1Preview){
+
+        step1Preview.textContent =
+            "₱" +
+            rentalFee.toLocaleString();
+
+    }
+
+
+    /*
+     * Duration text
+     */
+    let durationText = "-";
+
+
+    if(
+        pickupDate &&
+        returnDate &&
+        pickupTime &&
+        returnTime &&
+        totalHours > 0
+    ){
+
+        const durationParts = [];
+
+
+        if(fullDays > 0){
+
+            durationParts.push(
+                fullDays +
+                (
+                    fullDays === 1
+                        ? " day"
+                        : " days"
+                )
+            );
 
         }
 
-        rentalFee += excessHourFee;
+
+        if(excessHours > 0){
+
+            durationParts.push(
+                excessHours +
+                (
+                    excessHours === 1
+                        ? " hour"
+                        : " hours"
+                )
+            );
+
+        }
+
+
+        if(durationParts.length > 0){
+
+            durationText =
+                durationParts.join(" & ");
+
+        }
 
     }
-    else{
 
-        rentalFee =
-            rate * days;
 
-    }
+    /*
+     * UPDATE SUMMARY
+     */
+    document.getElementById("sumVehicle").textContent =
+        VEHICLES[vehicle].name;
+
+
+    /*
+     * Rental duration replaces the old
+     * Rental Type display.
+     */
+    document.getElementById("sumRental").textContent =
+        durationText;
+
+
+    document.getElementById("sumDestination").textContent =
+        province || "-";
+
+
+    document.getElementById("sumDays").textContent =
+        days;
+
+
+    document.getElementById("sumRentalFee").textContent =
+        "₱" +
+        rentalFee.toLocaleString();
+
+
+    document.getElementById("sumDelivery").textContent =
+        "₱" +
+        finalDeliveryFee.toLocaleString();
+
+
+    document.getElementById("sumPickup").textContent =
+        "₱" +
+        finalPickupFee.toLocaleString();
+
+
+    document.getElementById("sumCarWash").textContent =
+        "₱" +
+        finalCarWashFee.toLocaleString();
+
+
+    document.getElementById("sumSpecialDiscount").textContent =
+        "₱" +
+        longRentalDiscount.toLocaleString();
+
+
+    document.getElementById("sumLateNight").textContent =
+        "₱" +
+        lateNightFee.toLocaleString();
+
+
+    document.getElementById("sumTotal").textContent =
+        "₱" +
+        total.toLocaleString();
 
 }
-else{
-
-    // Half-day rental remains unchanged
-    rentalFee =
-        rate * days;
-
-}
-
-    const deliveryFee =
-    calculateDeliveryFee(
-
-        document.getElementById("deliveryMethod").value,
-
-        document.getElementById("deliveryCity").value
-
-    );
-
-    const pickupFee =
-    calculatePickupFee(
-
-        document.getElementById("pickupMethod").value,
-
-        document.getElementById("pickupCity").value
-
-    );
-
-    // Charge late-night fee for BOTH delivery and pickup times
-    const pickupLateNight =
-    calculateLateNightFee(
-
-        document.getElementById("pickupTime").value
-
-    );
-
-    const returnLateNight =
-    calculateLateNightFee(
-
-        document.getElementById("returnTime").value
-
-    );
-
-    const lateNightFee =
-    pickupLateNight + returnLateNight;
 
    // -------------------------
 // PROMOTIONS
