@@ -1061,60 +1061,113 @@ function calculateBooking(){
     }
 
 
-    // -------------------------
-    // UPDATE SUMMARY
-    // -------------------------
+  // -------------------------
+// UPDATE SUMMARY
+// -------------------------
 
-    document.getElementById("sumVehicle").textContent =
+const sumVehicle =
+    document.getElementById("sumVehicle");
+
+if(sumVehicle){
+    sumVehicle.textContent =
         VEHICLES[vehicle].name;
+}
 
 
-    document.getElementById("sumRental").textContent =
+const sumRental =
+    document.getElementById("sumRental");
+
+if(sumRental){
+    sumRental.textContent =
         durationText;
+}
 
 
-    document.getElementById("sumDestination").textContent =
+const sumDestination =
+    document.getElementById("sumDestination");
+
+if(sumDestination){
+    sumDestination.textContent =
         province || "-";
+}
 
 
-    document.getElementById("sumDays").textContent =
+const sumDays =
+    document.getElementById("sumDays");
+
+if(sumDays){
+    sumDays.textContent =
         days;
+}
 
 
-    document.getElementById("sumRentalFee").textContent =
+const sumRentalFee =
+    document.getElementById("sumRentalFee");
+
+if(sumRentalFee){
+    sumRentalFee.textContent =
         "₱" +
         rentalFee.toLocaleString();
+}
 
 
-    document.getElementById("sumDelivery").textContent =
+const sumDelivery =
+    document.getElementById("sumDelivery");
+
+if(sumDelivery){
+    sumDelivery.textContent =
         "₱" +
         finalDeliveryFee.toLocaleString();
+}
 
 
-    document.getElementById("sumPickup").textContent =
+const sumPickup =
+    document.getElementById("sumPickup");
+
+if(sumPickup){
+    sumPickup.textContent =
         "₱" +
         finalPickupFee.toLocaleString();
+}
 
 
-    document.getElementById("sumCarWash").textContent =
+const sumCarWash =
+    document.getElementById("sumCarWash");
+
+if(sumCarWash){
+    sumCarWash.textContent =
         "₱" +
         finalCarWashFee.toLocaleString();
+}
 
 
-    document.getElementById("sumSpecialDiscount").textContent =
+const sumSpecialDiscount =
+    document.getElementById("sumSpecialDiscount");
+
+if(sumSpecialDiscount){
+    sumSpecialDiscount.textContent =
         "₱" +
         longRentalDiscount.toLocaleString();
+}
 
 
-    document.getElementById("sumLateNight").textContent =
+const sumLateNight =
+    document.getElementById("sumLateNight");
+
+if(sumLateNight){
+    sumLateNight.textContent =
         "₱" +
         lateNightFee.toLocaleString();
+}
 
 
-    document.getElementById("sumTotal").textContent =
+const sumTotal =
+    document.getElementById("sumTotal");
+
+if(sumTotal){
+    sumTotal.textContent =
         "₱" +
         total.toLocaleString();
-
 }
 
 // -------------------------
