@@ -1175,6 +1175,56 @@ const fields = [
     "pickupCity"
 ];
 
+
+// -------------------------
+// UPDATE PRICE + AVAILABILITY
+// -------------------------
+
+function updateBookingPreview(){
+
+    // Always update the price
+    calculateBooking();
+
+
+    // Get required availability fields
+    const vehicle =
+        document.getElementById("vehicle").value;
+
+    const pickupDate =
+        document.getElementById("pickupDate").value;
+
+    const returnDate =
+        document.getElementById("returnDate").value;
+
+    const pickupTime =
+        document.getElementById("pickupTime").value;
+
+    const returnTime =
+        document.getElementById("returnTime").value;
+
+
+    // Don't check until everything is complete
+    if(
+        !vehicle ||
+        !pickupDate ||
+        !returnDate ||
+        !pickupTime ||
+        !returnTime
+    ){
+        return;
+    }
+
+
+    // Check availability
+    checkVehicleAvailability();
+
+}
+
+
+// -------------------------
+// LISTEN FOR CHANGES
+// -------------------------
+
 fields.forEach(id => {
 
     const element =
@@ -1183,47 +1233,21 @@ fields.forEach(id => {
     if(!element) return;
 
 
-    element.addEventListener("change", () => {
-
-        // Update price and summary
-        calculateBooking();
-
-
-        // Get current booking fields
-        const vehicle =
-            document.getElementById("vehicle").value;
-
-        const pickupDate =
-            document.getElementById("pickupDate").value;
-
-        const returnDate =
-            document.getElementById("returnDate").value;
-
-        const pickupTime =
-            document.getElementById("pickupTime").value;
-
-        const returnTime =
-            document.getElementById("returnTime").value;
+    // Normal select/date/time change
+    element.addEventListener(
+        "change",
+        updateBookingPreview
+    );
 
 
-        // Only check availability when
-        // all required information is complete
-        if(
-            vehicle &&
-            pickupDate &&
-            returnDate &&
-            pickupTime &&
-            returnTime
-        ){
-
-            checkVehicleAvailability();
-
-        }
-
-    });
+    // Also catch direct input changes
+    element.addEventListener(
+        "input",
+        updateBookingPreview
+    );
 
 
-    // Keep the minimum return-date rule
+    // Keep return-date minimum
     if(id === "pickupDate"){
 
         element.addEventListener(
