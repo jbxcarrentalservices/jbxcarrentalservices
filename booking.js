@@ -617,10 +617,10 @@ function getRentalDays(){
 function calculateBooking(){
 
     const vehicle =
-    document.getElementById("vehicle").value;
+document.getElementById("vehicle").value;
 
-    const rentalType =
-    document.getElementById("rentalType").value;
+const rentalType =
+getRentalType();
 
     const province =
     document.getElementById("province").value;
