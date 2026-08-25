@@ -573,41 +573,75 @@ function getRentalType(){
 }
 
 // -------------------------
-// RENTAL DAYS
+// RENTAL DURATION
 // -------------------------
 
-function getRentalDays(){
+function getRentalDuration(){
 
-    const pickup =
-    document.getElementById("pickupDate").value;
+    const pickupDate =
+        document.getElementById("pickupDate").value;
 
     const returnDate =
-    document.getElementById("returnDate").value;
+        document.getElementById("returnDate").value;
 
-    if(!pickup || !returnDate){
+    const pickupTime =
+        document.getElementById("pickupTime").value;
 
-        return 0;
+    const returnTime =
+        document.getElementById("returnTime").value;
+
+    if(
+        !pickupDate ||
+        !returnDate ||
+        !pickupTime ||
+        !returnTime
+    ){
+        return "";
+    }
+
+    const start =
+        new Date(`${pickupDate}T${pickupTime}`);
+
+    const end =
+        new Date(`${returnDate}T${returnTime}`);
+
+    const difference =
+        end - start;
+
+    if(difference <= 0){
+        return "";
+    }
+
+    const totalHours =
+        difference / (1000 * 60 * 60);
+
+    const days =
+        Math.floor(totalHours / 24);
+
+    const hours =
+        Math.floor(totalHours % 24);
+
+    let duration = "";
+
+    if(days > 0){
+
+        duration +=
+            days + (days === 1 ? " day" : " days");
 
     }
 
-    const start = new Date(pickup);
+    if(hours > 0){
 
-    const end = new Date(returnDate);
+        if(duration !== ""){
+            duration += " & ";
+        }
 
-    let days = Math.ceil(
-
-        (end-start)/(1000*60*60*24)
-
-    );
-
-    if(days<1){
-
-        days=1;
+        duration +=
+            hours + " hr" + (hours === 1 ? "" : "s");
 
     }
 
-    return days;
-
+    return duration || "Less than 1 hr";
 }
 
 // -------------------------
@@ -877,23 +911,11 @@ if(step1Preview){
     document.getElementById("sumVehicle").textContent =
     VEHICLES[vehicle].name;
 
-    document.getElementById("sumRental").textContent =
-
-    rentalType=="half"
-
-    ?
-
-    "Half Day (12 Hours)"
-
-    :
-
-    "Regular (24 Hours)";
-
     document.getElementById("sumDestination").textContent =
     province || "-";
 
-    document.getElementById("sumDays").textContent =
-    days;
+  document.getElementById("sumDays").textContent =
+getRentalDuration() || "-";
 
     document.getElementById("sumRentalFee").textContent =
     "₱"+rentalFee.toLocaleString();
