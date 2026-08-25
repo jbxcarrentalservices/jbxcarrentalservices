@@ -302,7 +302,17 @@ if(!calendarLoaded){
 
 }
 
+let calendarPromise = null;
+
 async function getBookedDates() {
+
+    if(calendarLoaded && calendarData){
+        return calendarData.items || [];
+    }
+
+    if(calendarPromise){
+        return await calendarPromise;
+    }
 
     const now = new Date().toISOString();
 
@@ -313,29 +323,38 @@ async function getBookedDates() {
         `&orderBy=startTime` +
         `&timeMin=${now}`;
 
-    try {
+    calendarPromise = fetch(url)
+        .then(response => response.json())
+        .then(data => {
 
-        const response = await fetch(url);
+            calendarData = data;
 
-        const data = await response.json();
+            calendarLoaded = true;
 
-calendarData = data;
+            console.log(
+                "Calendar Events:",
+                data
+            );
 
-calendarLoaded = true;
+            return data.items || [];
 
-console.log("Calendar Events:", data);
+        })
+        .catch(error => {
 
-return data.items || [];
+            console.error(
+                "Calendar loading error:",
+                error
+            );
 
-    } catch (err) {
+            calendarLoaded = false;
 
-        console.error(err);
+            calendarPromise = null;
 
-        calendarLoaded = false;
-return [];
+            return [];
 
-    }
+        });
 
+    return await calendarPromise;
 }
 
 // -------------------------
