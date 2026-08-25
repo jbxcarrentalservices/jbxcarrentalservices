@@ -1177,19 +1177,56 @@ const fields = [
 
 ];
 
-fields.forEach(id=>{
+fields.forEach(id => {
 
-    const element=document.getElementById(id);
+    const element =
+        document.getElementById(id);
 
-    if(element){
+    if(!element) return;
 
-        element.addEventListener("change", () => {
+    element.addEventListener("change", () => {
 
-            calculateBooking();
+        // Always update the price/summary
+        calculateBooking();
+
+
+        // Check whether all availability
+        // information has been entered
+        const vehicle =
+            document.getElementById("vehicle").value;
+
+        const pickupDate =
+            document.getElementById("pickupDate").value;
+
+        const returnDate =
+            document.getElementById("returnDate").value;
+
+        const pickupTime =
+            document.getElementById("pickupTime").value;
+
+        const returnTime =
+            document.getElementById("returnTime").value;
+
+
+        /*
+         * Don't check availability until
+         * ALL required information exists.
+         */
+        if(
+            vehicle &&
+            pickupDate &&
+            returnDate &&
+            pickupTime &&
+            returnTime
+        ){
 
             checkVehicleAvailability();
 
-        });
+        }
+
+    });
+
+});
 
        if(id=="pickupDate"){
 
