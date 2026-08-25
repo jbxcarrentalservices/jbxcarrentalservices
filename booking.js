@@ -1407,11 +1407,6 @@ document.getElementById("bookMessenger").onclick=function(){
     const vehicle =
         VEHICLES[document.getElementById("vehicle").value].name;
 
-    const rentalType =
-        document.getElementById("rentalType").value=="half"
-        ? "Half Day (12 Hours)"
-        : "Regular (24 Hours)";
-
     const message =
 
 `Hello JBX Car Rental Services!
