@@ -832,6 +832,8 @@ if(chargeableMinutes > 15){
     chargeableHours++;
 }
 
+   let excessHours =
+    chargeableHours;
 
 // -------------------------------------
 // 48 HOURS OR LESS
@@ -966,16 +968,6 @@ else if(totalHours > 48){
 
 
     // Remaining hours after full days
-    let excessHours =
-        remainingHours;
-
-
-    // Apply the same 15-minute rule
-    if(remainingMinutes > 15){
-        excessHours++;
-    }
-
-
     if(excessHours > 0){
 
         const excessRates =
