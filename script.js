@@ -166,17 +166,33 @@ window.onclick=function(event){
 };
 
 
-const menuToggle = document.querySelector(".menu-toggle");
+const menuToggle =
+    document.querySelector(".menu-toggle");
 
-const nav = document.querySelector("nav");
+const nav =
+    document.querySelector("nav");
 
 
-menuToggle.onclick=function(){
+if(menuToggle && nav){
 
-    nav.classList.toggle("active");
+    menuToggle.addEventListener("click", function(){
 
-};
+        nav.classList.toggle("active");
 
+    });
+
+
+    nav.querySelectorAll("a").forEach(link => {
+
+        link.addEventListener("click", function(){
+
+            nav.classList.remove("active");
+
+        });
+
+    });
+
+}
 
 const faqs=document.querySelectorAll(".faq-question");
 
