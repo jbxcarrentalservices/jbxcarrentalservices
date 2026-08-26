@@ -1478,15 +1478,19 @@ fields.forEach(id => {
 // MESSENGER BOOKING
 // -------------------------
 
-document.getElementById("bookMessenger").onclick=function(){
+document.getElementById("bookMessenger").onclick = function(){
 
+    // Make sure the latest pricing is calculated
     calculateBooking();
 
+
     const vehicle =
-        VEHICLES[document.getElementById("vehicle").value].name;
+        VEHICLES[
+            document.getElementById("vehicle").value
+        ].name;
+
 
     const message =
-
 `Hello JBX Car Rental Services!
 
 I would like to book a vehicle.
@@ -1531,6 +1535,7 @@ ${document.getElementById("pickupCity").value}
 
 Pickup Address:
 ${document.getElementById("pickupAddress").value}
+
 ========================
 
 Estimated Rental Fee:
@@ -1566,13 +1571,11 @@ ${document.getElementById("customerEmail").value}
 
 Thank you!`;
 
+
     window.open(
-
-        "https://m.me/JBXCarRentalServices?text="+
+        "https://m.me/JBXCarRentalServices?text=" +
         encodeURIComponent(message),
-
         "_blank"
-
     );
 
 };
