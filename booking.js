@@ -1480,14 +1480,28 @@ fields.forEach(id => {
 
 document.getElementById("bookMessenger").onclick = function(){
 
-    // Make sure the latest pricing is calculated
+    // Update the latest booking calculation
     calculateBooking();
 
 
+    // Safely get text from summary elements
+    function getSummaryText(id){
+
+        const element =
+            document.getElementById(id);
+
+        return element
+            ? element.textContent
+            : "₱0";
+
+    }
+
+
+    const vehicleSelect =
+        document.getElementById("vehicle");
+
     const vehicle =
-        VEHICLES[
-            document.getElementById("vehicle").value
-        ].name;
+        VEHICLES[vehicleSelect.value].name;
 
 
     const message =
@@ -1501,7 +1515,7 @@ Vehicle:
 ${vehicle}
 
 Rental Duration:
-${document.getElementById("sumRental").textContent}
+${getSummaryText("sumRental")}
 
 Pickup Date:
 ${document.getElementById("pickupDate").value}
@@ -1525,7 +1539,7 @@ Delivery City:
 ${document.getElementById("deliveryCity").value}
 
 Delivery Address:
-${document.getElementById("deliveryAddress").value}
+${document.getElementById("deliveryAddress")?.value || ""}
 
 Vehicle Return:
 ${document.getElementById("pickupMethod").value}
@@ -1534,27 +1548,27 @@ Pickup City:
 ${document.getElementById("pickupCity").value}
 
 Pickup Address:
-${document.getElementById("pickupAddress").value}
+${document.getElementById("pickupAddress")?.value || ""}
 
 ========================
 
 Estimated Rental Fee:
-${document.getElementById("sumRentalFee").textContent}
+${getSummaryText("sumRentalFee")}
 
 Delivery Fee:
-${document.getElementById("sumDelivery").textContent}
+${getSummaryText("sumDelivery")}
 
 Pickup Fee:
-${document.getElementById("sumPickup").textContent}
+${getSummaryText("sumPickup")}
 
 Car Wash Fee:
-${document.getElementById("sumCarWash").textContent}
+${getSummaryText("sumCarWash")}
 
 Late Night Fee:
-${document.getElementById("sumLateNight").textContent}
+${getSummaryText("sumLateNight")}
 
 TOTAL:
-${document.getElementById("sumTotal").textContent}
+${getSummaryText("sumTotal")}
 
 ========================
 
@@ -1579,7 +1593,6 @@ Thank you!`;
     );
 
 };
-
 // -------------------------
 // INITIAL LOAD
 // -------------------------
