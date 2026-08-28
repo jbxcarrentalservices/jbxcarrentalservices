@@ -1091,8 +1091,8 @@ if(chargeableMinutes > 15){
     chargeableHours++;
 }
 
-   let excessHours =
-    chargeableHours;
+ let excessHours =
+    chargeableHours - (fullDays * 24);
 
 // -------------------------------------
 // 48 HOURS OR LESS
