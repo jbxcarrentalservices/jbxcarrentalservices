@@ -1852,9 +1852,12 @@ const fields = [
 
 async function updateBookingPreview(){
 
-    // Update price preview first
-    calculateBooking();
+  
+    // Update destination availability
+    updateDestinationOptions();
 
+    // Update price
+    calculateBooking();
 
     // Get required availability fields
     const vehicle =
@@ -2062,6 +2065,7 @@ setPickupDateMin();
 
 updateReturnDateMin();
 
+updateDestinationOptions();
 calculateBooking();
 
 (async () => {
