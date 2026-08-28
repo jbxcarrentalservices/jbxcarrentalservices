@@ -945,6 +945,155 @@ function getRentalDuration(){
 }
 
 // -------------------------
+// DESTINATION MINIMUM RENTAL
+// -------------------------
+
+function updateDestinationOptions(){
+
+    const provinceSelect =
+        document.getElementById("province");
+
+    const pickupDate =
+        document.getElementById("pickupDate").value;
+
+    const returnDate =
+        document.getElementById("returnDate").value;
+
+    const pickupTime =
+        document.getElementById("pickupTime").value;
+
+    const returnTime =
+        document.getElementById("returnTime").value;
+
+
+    if(!provinceSelect){
+        return;
+    }
+
+
+    // Calculate actual rental hours
+    let totalHours = 0;
+
+    if(
+        pickupDate &&
+        returnDate &&
+        pickupTime &&
+        returnTime
+    ){
+
+        const start =
+            new Date(
+                `${pickupDate}T${pickupTime}`
+            );
+
+        const end =
+            new Date(
+                `${returnDate}T${returnTime}`
+            );
+
+        totalHours =
+            (end - start) /
+            (1000 * 60 * 60);
+
+    }
+
+
+    // Minimum hours per group
+    const minimumHours = {
+
+        B: 36,
+        C: 72,
+        D: 96
+
+    };
+
+
+    // Update each province option
+    Array.from(
+        provinceSelect.options
+    ).forEach(option => {
+
+        const province =
+            option.value;
+
+
+        // Keep placeholder enabled
+        if(!province){
+            option.disabled = false;
+            return;
+        }
+
+
+        let requiredHours = 0;
+
+
+        if(GROUP_B.includes(province)){
+
+            requiredHours =
+                minimumHours.B;
+
+        }
+        else if(GROUP_C.includes(province)){
+
+            requiredHours =
+                minimumHours.C;
+
+        }
+        else if(GROUP_D.includes(province)){
+
+            requiredHours =
+                minimumHours.D;
+
+        }
+
+
+        // Group A or no restriction
+        if(requiredHours === 0){
+
+            option.disabled = false;
+
+        }
+        else{
+
+            option.disabled =
+                totalHours < requiredHours;
+
+        }
+
+    });
+
+
+    // If currently selected destination
+    // is no longer allowed, clear it.
+    const selectedProvince =
+        provinceSelect.value;
+
+
+    if(selectedProvince){
+
+        const selectedOption =
+            provinceSelect.options[
+                provinceSelect.selectedIndex
+            ];
+
+
+        if(
+            selectedOption &&
+            selectedOption.disabled
+        ){
+
+            provinceSelect.value = "";
+
+            // Recalculate preview
+            calculateBooking();
+
+        }
+
+    }
+
+}
+
+// -------------------------
 // BOOKING CALCULATOR
 // -------------------------
 
