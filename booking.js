@@ -1972,7 +1972,7 @@ Vehicle:
 ${vehicle}
 
 Rental Duration:
-${getSummaryText("sumRental")}
+${getSummaryText("sumDays")}
 
 Pickup Date:
 ${document.getElementById("pickupDate").value}
