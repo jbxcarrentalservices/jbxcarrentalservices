@@ -1366,16 +1366,23 @@ else if(totalHours > 48){
         longRentalDiscount;
 
 
-    // -------------------------
-    // STEP 1 PRICE PREVIEW
-    // -------------------------
+   // -------------------------
+// STEP 1 PRICE PREVIEW
+// -------------------------
 
-    const step1Preview =
-        document.getElementById(
-            "step1EstimatedTotal"
-        );
+const step1Preview =
+    document.getElementById(
+        "step1EstimatedTotal"
+    );
 
-    if(step1Preview){
+if(step1Preview){
+
+    if(!province){
+
+        step1Preview.textContent =
+            "₱0";
+
+    }else{
 
         step1Preview.textContent =
             "₱" +
@@ -1383,6 +1390,7 @@ else if(totalHours > 48){
 
     }
 
+}
 
     // -------------------------
     // STEP 2 FEE PREVIEW
