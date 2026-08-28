@@ -1555,7 +1555,7 @@ const sumDays =
 
 if(sumDays){
     sumDays.textContent =
-        days;
+        durationText;
 }
 
 
