@@ -1454,18 +1454,18 @@ else if(totalHours > 48){
         }
 
 
-        if(excessHours > 0){
+   if(remainingHours > 0){
 
-            parts.push(
-                excessHours +
-                (
-                    excessHours === 1
-                        ? " hour"
-                        : " hours"
-                )
-            );
+    parts.push(
+        remainingHours +
+        (
+            remainingHours === 1
+                ? " hour"
+                : " hours"
+        )
+    );
 
-        }
+}
 
 
         if(parts.length > 0){
