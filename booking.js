@@ -38,25 +38,33 @@ async function checkVehicleAvailability(){
     const notice =
         document.getElementById("availabilityNotice");
 
-   // Wait for Google Calendar data to finish loading
-if(!calendarLoaded){
 
-    if(notice){
+    // --------------------------------
+    // WAIT FOR GOOGLE CALENDAR DATA
+    // --------------------------------
 
-        notice.style.display = "block";
-        notice.style.background = "#f7f7f7";
-        notice.style.color = "#555";
+    if(!calendarLoaded){
 
-        notice.innerHTML =
-            "⏳ Checking vehicle availability...";
+        if(notice){
+
+            notice.style.display = "block";
+            notice.style.background = "#f7f7f7";
+            notice.style.color = "#555";
+
+            notice.innerHTML =
+                "⏳ Checking vehicle availability...";
+
+        }
+
+        await getBookedDates();
 
     }
 
-    await getBookedDates();
 
-}
+    // --------------------------------
+    // REQUIRE ALL DATE/TIME FIELDS
+    // --------------------------------
 
-    // Wait until all date and time fields are entered
     if(
         !pickup ||
         !returnDate ||
@@ -74,31 +82,129 @@ if(!calendarLoaded){
 
     }
 
+
     const userStart =
         new Date(`${pickup}T${pickupTime}`);
 
     const userEnd =
         new Date(`${returnDate}T${returnTime}`);
 
+
+    if(
+        isNaN(userStart.getTime()) ||
+        isNaN(userEnd.getTime()) ||
+        userEnd <= userStart
+    ){
+
+        vehicleIsBooked = false;
+
+        if(notice){
+            notice.style.display = "none";
+        }
+
+        return;
+
+    }
+
+
+    // --------------------------------
+    // CUSTOMER RENTAL DURATION
+    // --------------------------------
+    //
+    // 24 hours = 1 day
+    // 48 hours = 2 days
+    // 72 hours = 3 days
+    //
+
+    const rentalHours =
+        (userEnd - userStart) /
+        (1000 * 60 * 60);
+
+    const rentalDays =
+        Math.floor(rentalHours / 24);
+
+
+    // --------------------------------
+    // DETERMINE MAXIMUM ALLOWED
+    // CALENDAR CONFLICT
+    // --------------------------------
+
+    let maxConflictHours = null;
+
+
+    // 3–4 days:
+    // maximum 1-day conflict
+
+    if(
+        rentalDays >= 3 &&
+        rentalDays <= 4
+    ){
+
+        maxConflictHours = 24;
+
+    }
+
+
+    // 5 days:
+    // maximum 2-day conflict
+
+    else if(rentalDays === 5){
+
+        maxConflictHours = 48;
+
+    }
+
+
+    // 6 days:
+    // maximum 3-day conflict
+
+    else if(rentalDays === 6){
+
+        maxConflictHours = 72;
+
+    }
+
+
+    // 7 days or more:
+    // any conflict can be bypassed
+
+    else if(rentalDays >= 7){
+
+        maxConflictHours = Infinity;
+
+    }
+
+
     const events =
         calendarData.items || [];
 
 
     // --------------------------------
-    // CHECK ONE VEHICLE
+    // CHECK VEHICLE WITH EXISTING
+    // 2-HOUR BUFFER
     // --------------------------------
 
     function isVehicleAvailable(vehicleCode){
 
         let booked = false;
 
+
         events.forEach(event => {
 
             if(!event.summary) return;
 
-            if(!event.summary.startsWith(vehicleCode)){
+            if(
+                !event.summary.startsWith(vehicleCode)
+            ){
                 return;
             }
+
+
+            // Ignore cancelled events
+            if(event.status === "cancelled"){
+                return;
+            }
+
 
             let eventStart =
                 new Date(
@@ -113,19 +219,25 @@ if(!calendarLoaded){
                 );
 
 
-            // 2-hour buffer BEFORE reservation
+            if(
+                isNaN(eventStart.getTime()) ||
+                isNaN(eventEnd.getTime())
+            ){
+                return;
+            }
+
+
+            // Existing 2-hour buffer
             eventStart.setHours(
                 eventStart.getHours() - 2
             );
 
-
-            // 2-hour buffer AFTER reservation
             eventEnd.setHours(
                 eventEnd.getHours() + 2
             );
 
 
-            // Actual date + time overlap
+            // Check overlap
             if(
                 userStart < eventEnd &&
                 userEnd > eventStart
@@ -137,7 +249,95 @@ if(!calendarLoaded){
 
         });
 
+
         return !booked;
+
+    }
+
+
+    // --------------------------------
+    // CALCULATE ACTUAL CONFLICT
+    // WITHOUT 2-HOUR BUFFER
+    // --------------------------------
+    //
+    // This is used ONLY for the
+    // long-rental bypass.
+    //
+
+    function getConflictHours(vehicleCode){
+
+        let conflictHours = 0;
+
+
+        events.forEach(event => {
+
+            if(!event.summary) return;
+
+            if(
+                !event.summary.startsWith(vehicleCode)
+            ){
+                return;
+            }
+
+
+            if(event.status === "cancelled"){
+                return;
+            }
+
+
+            const eventStart =
+                new Date(
+                    event.start.dateTime ||
+                    event.start.date
+                );
+
+            const eventEnd =
+                new Date(
+                    event.end.dateTime ||
+                    event.end.date
+                );
+
+
+            if(
+                isNaN(eventStart.getTime()) ||
+                isNaN(eventEnd.getTime())
+            ){
+                return;
+            }
+
+
+            // Find the actual overlap
+            // between customer rental
+            // and calendar reservation.
+
+            const overlapStart =
+                Math.max(
+                    userStart.getTime(),
+                    eventStart.getTime()
+                );
+
+            const overlapEnd =
+                Math.min(
+                    userEnd.getTime(),
+                    eventEnd.getTime()
+                );
+
+
+            if(overlapEnd > overlapStart){
+
+                conflictHours +=
+                    (
+                        overlapEnd -
+                        overlapStart
+                    ) /
+                    (1000 * 60 * 60);
+
+            }
+
+        });
+
+
+        return conflictHours;
 
     }
 
@@ -151,6 +351,43 @@ if(!calendarLoaded){
 
     const selectedAvailable =
         isVehicleAvailable(selectedCode);
+
+
+    // --------------------------------
+    // SELECTED VEHICLE IS BOOKED
+    // CHECK LONG-RENTAL BYPASS
+    // --------------------------------
+
+    if(!selectedAvailable){
+
+        const conflictHours =
+            getConflictHours(selectedCode);
+
+
+        if(
+            maxConflictHours !== null &&
+            conflictHours > 0 &&
+            conflictHours <= maxConflictHours
+        ){
+
+            // Allow the customer to continue
+            vehicleIsBooked = false;
+
+
+            // Do NOT show available/unavailable
+            if(notice){
+
+                notice.style.display = "none";
+                notice.innerHTML = "";
+
+            }
+
+
+            return;
+
+        }
+
+    }
 
 
     // --------------------------------
@@ -177,19 +414,24 @@ if(!calendarLoaded){
 
         vehicleIsBooked = false;
 
+
         if(notice){
 
             notice.style.display = "block";
 
-            notice.style.background = "#e9ffe9";
+            notice.style.background =
+                "#e9ffe9";
 
-            notice.style.color = "#008000";
+            notice.style.color =
+                "#008000";
 
             notice.innerHTML =
                 "✅ " +
-                (selectedVehicle === "vios"
-                    ? "Vios"
-                    : "Xpander") +
+                (
+                    selectedVehicle === "vios"
+                        ? "Vios"
+                        : "Xpander"
+                ) +
                 " is available for the selected date and time.";
 
         }
@@ -204,29 +446,38 @@ if(!calendarLoaded){
     // OTHER AVAILABLE
     // --------------------------------
 
-    if(!selectedAvailable && otherAvailable){
+    if(
+        !selectedAvailable &&
+        otherAvailable
+    ){
 
         vehicleIsBooked = true;
+
 
         if(notice){
 
             notice.style.display = "block";
 
-            notice.style.background = "#fff4d6";
+            notice.style.background =
+                "#fff4d6";
 
-            notice.style.color = "#8a5a00";
+            notice.style.color =
+                "#8a5a00";
+
 
             const otherName =
                 otherVehicle === "vios"
                     ? "Vios"
                     : "Xpander";
 
-            notice.innerHTML =
 
+            notice.innerHTML =
                 "❌ " +
-                (selectedVehicle === "vios"
-                    ? "Vios"
-                    : "Xpander") +
+                (
+                    selectedVehicle === "vios"
+                        ? "Vios"
+                        : "Xpander"
+                ) +
                 " is unavailable for the selected date and time.<br><br>" +
 
                 "✅ " +
@@ -247,30 +498,38 @@ if(!calendarLoaded){
                     Switch to ${otherName}
                 </button>`;
 
-            const switchButton =
-                document.getElementById(
-                    "switchVehicleButton"
-                );
+        }
 
-            if(switchButton){
 
-                switchButton.onclick = function(){
+        const switchButton =
+            document.getElementById(
+                "switchVehicleButton"
+            );
+
+
+        if(switchButton){
+
+            switchButton.onclick =
+                function(){
 
                     document.getElementById(
                         "vehicle"
-                    ).value = otherVehicle;
+                    ).value =
+                        otherVehicle;
+
 
                     vehicleIsBooked = false;
 
+
                     calculateBooking();
+
 
                     checkVehicleAvailability();
 
                 };
 
-            }
-
         }
+
 
         return;
 
@@ -283,26 +542,25 @@ if(!calendarLoaded){
 
     vehicleIsBooked = true;
 
+
     if(notice){
 
         notice.style.display = "block";
 
-        notice.style.background = "#ffe5e5";
+        notice.style.background =
+            "#ffe5e5";
 
-        notice.style.color = "#c40000";
+        notice.style.color =
+            "#c40000";
 
         notice.innerHTML =
-
             "❌ Both Vios and Xpander are unavailable " +
             "for the selected date and time.<br><br>" +
-
             "Please choose another date or time.";
 
     }
 
 }
-
-let calendarPromise = null;
 
 async function getBookedDates() {
 
