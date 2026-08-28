@@ -1428,24 +1428,58 @@ else if(totalHours > 48){
     }
 
 
-    // -------------------------
-    // DURATION DISPLAY
-    // -------------------------
+ // -------------------------
+// DURATION DISPLAY
+// -------------------------
 
-    let durationText = "-";
+let durationText = "-";
 
+if(
+    pickupDate &&
+    returnDate &&
+    pickupTime &&
+    returnTime
+){
 
-    if(totalHours > 0){
+    const durationStart =
+        new Date(
+            `${pickupDate}T${pickupTime}`
+        );
+
+    const durationEnd =
+        new Date(
+            `${returnDate}T${returnTime}`
+        );
+
+    const durationMilliseconds =
+        durationEnd - durationStart;
+
+    if(durationMilliseconds > 0){
+
+        const durationTotalHours =
+            durationMilliseconds /
+            (1000 * 60 * 60);
+
+        const displayDays =
+            Math.floor(
+                durationTotalHours / 24
+            );
+
+        const displayRemainingHours =
+            Math.floor(
+                durationTotalHours % 24
+            );
 
         const parts = [];
 
 
-        if(fullDays > 0){
+        // DAYS
+        if(displayDays > 0){
 
             parts.push(
-                fullDays +
+                displayDays +
                 (
-                    fullDays === 1
+                    displayDays === 1
                         ? " day"
                         : " days"
                 )
@@ -1454,18 +1488,19 @@ else if(totalHours > 48){
         }
 
 
-   if(remainingHours > 0){
+        // HOURS
+        if(displayRemainingHours > 0){
 
-    parts.push(
-        remainingHours +
-        (
-            remainingHours === 1
-                ? " hour"
-                : " hours"
-        )
-    );
+            parts.push(
+                displayRemainingHours +
+                (
+                    displayRemainingHours === 1
+                        ? " hour"
+                        : " hours"
+                )
+            );
 
-}
+        }
 
 
         if(parts.length > 0){
@@ -1473,10 +1508,16 @@ else if(totalHours > 48){
             durationText =
                 parts.join(" & ");
 
+        } else {
+
+            durationText =
+                "Less than 1 hour";
+
         }
 
     }
 
+}
 
   // -------------------------
 // UPDATE SUMMARY
