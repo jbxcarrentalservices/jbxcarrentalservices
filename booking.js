@@ -1244,14 +1244,14 @@ if(chargeableMinutes > 15){
     chargeableHours - (fullDays * 24);
 
 // -------------------------------------
-// 48 HOURS OR LESS
+// RENTAL PRICING
 // -------------------------------------
 
-if(totalHours > 0 && chargeableHours <= 48){
+if(totalHours > 0){
 
-    // -------------------------
-    // 12 HOURS OR LESS
-    // -------------------------
+    // ---------------------------------
+    // UP TO 12 HOURS
+    // ---------------------------------
 
     if(chargeableHours <= 12){
 
@@ -1263,13 +1263,13 @@ if(totalHours > 0 && chargeableHours <= 48){
     }
 
 
-    // -------------------------
+    // ---------------------------------
     // 12–24 HOURS
-    // -------------------------
+    // ---------------------------------
 
     else if(chargeableHours <= 24){
 
-        const base =
+        const base12 =
             vehicle === "vios"
                 ? 1300
                 : 1700;
@@ -1279,112 +1279,109 @@ if(totalHours > 0 && chargeableHours <= 48){
                 ? 200
                 : 250;
 
-        const maximum =
-            vehicle === "vios"
-                ? 1800
-                : 2500;
-
-        const extraHours =
-            chargeableHours - 12;
-
         rentalFee =
             Math.min(
-                base + (extraHours * hourlyRate),
-                maximum
+                base12 +
+                (
+                    (chargeableHours - 12) *
+                    hourlyRate
+                ),
+                rate
             );
 
     }
 
 
-    // -------------------------
-    // 24–36 HOURS
-    // -------------------------
+    // ---------------------------------
+    // MORE THAN 24 HOURS
+    // ---------------------------------
 
-    else if(chargeableHours <= 36){
+    else{
 
-        const base =
-            vehicle === "vios"
-                ? 1800
-                : 2500;
-
-        const hourlyRate =
-            vehicle === "vios"
-                ? 200
-                : 250;
-
-        const maximum =
-            vehicle === "vios"
-                ? 2800
-                : 4000;
-
-        const extraHours =
-            chargeableHours - 24;
-
+        // Full 24-hour rental periods
         rentalFee =
-            Math.min(
-                base + (extraHours * hourlyRate),
-                maximum
-            );
-
-    }
+            fullDays * rate;
 
 
-    // -------------------------
-    // 36–48 HOURS
-    // -------------------------
+        // ---------------------------------
+        // EXCESS-HOUR RATE BY DESTINATION
+        // ---------------------------------
 
-    else {
+        if(excessHours > 0){
 
-        const base =
-            vehicle === "vios"
-                ? 2800
-                : 4000;
+            let excessHourlyRate =
+                vehicle === "vios"
+                    ? 200
+                    : 250;
 
-        const hourlyRate =
-            vehicle === "vios"
-                ? 200
-                : 250;
-
-        const maximum =
-            vehicle === "vios"
-                ? 3600
-                : 5000;
-
-        const extraHours =
-            chargeableHours - 36;
-
-        rentalFee =
-            Math.min(
-                base + (extraHours * hourlyRate),
-                maximum
-            );
-
-    }
-
-}
+            let excessCap = 0;
 
 
-// -------------------------------------
-// MORE THAN 48 HOURS
-// -------------------------------------
+            // -----------------------------
+            // GROUP A
+            // -----------------------------
 
-else if(totalHours > 48){
+            if(GROUP_A.includes(province)){
 
-    // Full 24-hour periods
-    rentalFee =
-        fullDays * rate;
+                excessCap =
+                    vehicle === "vios"
+                        ? 1000
+                        : 1500;
+
+            }
 
 
-    // Remaining hours after full days
-    if(excessHours > 0){
+            // -----------------------------
+            // GROUP B
+            // -----------------------------
 
-        const excessRates =
-            vehicle === "vios"
-                ? VIOS_EXCESS_RATES
-                : XPANDER_EXCESS_RATES;
+            else if(GROUP_B.includes(province)){
 
-        rentalFee +=
-            excessRates[excessHours] || 0;
+                excessCap =
+                    vehicle === "vios"
+                        ? 1500
+                        : 2000;
+
+            }
+
+
+            // -----------------------------
+            // GROUP C
+            // -----------------------------
+
+            else if(GROUP_C.includes(province)){
+
+                excessCap =
+                    vehicle === "vios"
+                        ? 1700
+                        : 2200;
+
+            }
+
+
+            // -----------------------------
+            // GROUP D
+            // -----------------------------
+
+            else if(GROUP_D.includes(province)){
+
+                excessCap =
+                    vehicle === "vios"
+                        ? 2200
+                        : 2700;
+
+            }
+
+
+            // Calculate excess charge
+            rentalFee +=
+                Math.min(
+                    excessHours *
+                    excessHourlyRate,
+                    excessCap
+                );
+
+        }
 
     }
 
