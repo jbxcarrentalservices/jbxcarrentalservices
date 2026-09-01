@@ -245,29 +245,52 @@ function displayReviews(reviews){
     const container =
         document.getElementById("reviewList");
 
+    const allReviewsContainer =
+        document.getElementById("allReviewList");
+
+    const viewAllButton =
+        document.getElementById("viewAllReviewsBtn");
+
+
     if(!container) return;
 
+
     container.innerHTML = "";
+
+
+    if(allReviewsContainer){
+
+        allReviewsContainer.innerHTML = "";
+
+    }
 
 
     if(reviews.length === 0){
 
         updateReviewSummary([]);
 
+        if(viewAllButton){
+
+            viewAllButton.style.display =
+                "none";
+
+        }
+
         return;
 
     }
 
 
-    reviews.forEach(review => {
-
-        const card = document.createElement("div");
-
-        card.className = "review-card";
-
+    reviews.forEach((review, index) => {
 
         const rating =
-            Math.min(5, Math.max(1, Number(review.rating)));
+            Math.min(
+                5,
+                Math.max(
+                    1,
+                    Number(review.rating)
+                )
+            );
 
 
         const stars =
@@ -275,39 +298,112 @@ function displayReviews(reviews){
             "☆".repeat(5 - rating);
 
 
-        const date = review.date
-            ? new Date(review.date).toLocaleDateString()
-            : "";
+        const date =
+            review.date
+                ? new Date(
+                    review.date
+                ).toLocaleDateString()
+                : "";
 
 
-     card.innerHTML = `
+        // -------------------------
+        // REVIEW CARD HTML
+        // -------------------------
 
-    <div class="review-stars">
-        ${stars}
-    </div>
+        const reviewHTML = `
 
-    <h4>${escapeHTML(review.name)}</h4>
+            <div class="review-stars">
+                ${stars}
+            </div>
 
-    <div class="verified-rental">
-        ✓ Verified Rental
-    </div>
+            <h4>
+                ${escapeHTML(review.name)}
+            </h4>
 
-    <p>${escapeHTML(review.review)}</p>
+            <div class="verified-rental">
+                ✓ Verified Rental
+            </div>
 
-    <small>${date}</small>
+            <p>
+                ${escapeHTML(review.review)}
+            </p>
 
-`;
+            <small>
+                ${date}
+            </small>
+
+        `;
 
 
-        container.appendChild(card);
+        // -------------------------
+        // HOMEPAGE REVIEWS
+        // DESKTOP SHOWS FIRST 6
+        // MOBILE CSS WILL CAROUSEL
+        // -------------------------
+
+        if(index < 6){
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "review-card";
+
+            card.innerHTML =
+                reviewHTML;
+
+            container.appendChild(card);
+
+        }
+
+
+        // -------------------------
+        // ALL REVIEWS MODAL
+        // -------------------------
+
+        if(allReviewsContainer){
+
+            const allCard =
+                document.createElement("div");
+
+            allCard.className =
+                "review-card";
+
+            allCard.innerHTML =
+                reviewHTML;
+
+            allReviewsContainer.appendChild(
+                allCard
+            );
+
+        }
 
     });
+
+
+    // Show View All button
+    // only when more than 6 reviews
+
+    if(viewAllButton){
+
+        if(reviews.length > 6){
+
+            viewAllButton.style.display =
+                "block";
+
+        }else{
+
+            viewAllButton.style.display =
+                "none";
+
+        }
+
+    }
 
 
     updateReviewSummary(reviews);
 
 }
-
 
 /* UPDATE RATING SUMMARY */
 
