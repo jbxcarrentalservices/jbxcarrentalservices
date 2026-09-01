@@ -874,3 +874,50 @@ if(allReviewsModal){
     );
 
 }
+
+/* =================================
+   MOBILE REVIEW SEE MORE / SEE LESS
+================================= */
+
+document.addEventListener(
+    "click",
+    function(event){
+
+        const button =
+            event.target.closest(
+                ".see-more-review"
+            );
+
+        if(!button) return;
+
+
+        const reviewCard =
+            button.closest(
+                ".review-card"
+            );
+
+        if(!reviewCard) return;
+
+
+        const reviewText =
+            reviewCard.querySelector(
+                ".review-text"
+            );
+
+        if(!reviewText) return;
+
+
+        reviewText.classList.toggle(
+            "expanded"
+        );
+
+
+        button.textContent =
+            reviewText.classList.contains(
+                "expanded"
+            )
+                ? "See less"
+                : "See more";
+
+    }
+);
