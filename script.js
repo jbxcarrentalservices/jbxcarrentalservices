@@ -404,9 +404,63 @@ container.appendChild(card);
     }
 
 
-    updateReviewSummary(reviews);
+updateReviewSummary(reviews);
 
-}
+
+// -------------------------
+// DETECT LONG REVIEWS
+// -------------------------
+
+requestAnimationFrame(() => {
+
+    document.querySelectorAll(
+        "#reviewList .review-card"
+    ).forEach(card => {
+
+        const reviewText =
+            card.querySelector(
+                ".review-text"
+            );
+
+        const seeMoreButton =
+            card.querySelector(
+                ".see-more-review"
+            );
+
+
+        if(
+            !reviewText ||
+            !seeMoreButton
+        ){
+
+            return;
+
+        }
+
+
+        // Check if the text is
+        // longer than the collapsed area
+
+        if(
+            reviewText.scrollHeight >
+            reviewText.clientHeight + 2
+        ){
+
+            card.classList.add(
+                "has-long-review"
+            );
+
+        }else{
+
+            card.classList.remove(
+                "has-long-review"
+            );
+
+        }
+
+    });
+
+});
 
 /* UPDATE RATING SUMMARY */
 
