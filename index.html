@@ -265,8 +265,42 @@ Rates may vary on holidays and long-term rentals.
         </div>
     </div>
 
-    <div id="reviewList" class="review-grid"></div>
+<div id="reviewList" class="review-grid"></div>
 
+<button
+    type="button"
+    id="viewAllReviewsBtn"
+    class="view-all-reviews-btn"
+>
+    View All Reviews
+</button>
+
+
+<div
+    id="allReviewsModal"
+    class="all-reviews-modal"
+    aria-hidden="true"
+>
+    <div class="all-reviews-modal-content">
+
+        <button
+            type="button"
+            class="all-reviews-close"
+            aria-label="Close reviews"
+        >
+            &times;
+        </button>
+
+        <h3>All Customer Reviews</h3>
+
+        <div
+            id="allReviewList"
+            class="all-review-grid"
+        ></div>
+
+    </div>
+</div>
+  
     <div id="reviewFormWrap" class="review-form-wrap" aria-hidden="true">
         <div class="review-form-card">
             <button type="button" class="review-form-close" onclick="closeReviewForm()" aria-label="Close">&times;</button>
