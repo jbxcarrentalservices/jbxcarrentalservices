@@ -791,6 +791,37 @@ function validateStep1(){
 
     }
 
+       const limits =
+        getDateLimits();
+
+    const pickupDate =
+        document.getElementById("pickupDate").value;
+
+    const returnDate =
+        document.getElementById("returnDate").value;
+
+
+    if(pickupDate > limits.max){
+
+        alert(
+            "Pickup date cannot be more than 2 years from today."
+        );
+
+        return false;
+
+    }
+
+
+    if(returnDate > limits.max){
+
+        alert(
+            "Return date cannot be more than 2 years from today."
+        );
+
+        return false;
+
+    }
+
     if(document.getElementById("province").value==""){
 
         alert("Please select destination.");
