@@ -1536,3 +1536,96 @@ nav a{
     }
 
 }
+
+/* =================================
+   MOBILE COMPACT REVIEW CARDS
+================================= */
+
+@media(max-width:768px){
+
+    /* Make review cards more compact */
+
+    .review-card{
+
+        min-height:0;
+
+        padding:18px;
+
+    }
+
+
+    /* Compact review text */
+
+    .review-text{
+
+        line-height:22px;
+
+        margin-bottom:6px;
+
+    }
+
+
+    /* Initially show only 3 lines */
+
+    .review-text-collapsed{
+
+        display:-webkit-box;
+
+        -webkit-box-orient:vertical;
+
+        -webkit-line-clamp:3;
+
+        overflow:hidden;
+
+    }
+
+
+    /* Expanded review */
+
+    .review-text-collapsed.expanded{
+
+        display:block;
+
+        overflow:visible;
+
+    }
+
+
+    /* See more button */
+
+    .see-more-review{
+
+        display:none;
+
+        border:0;
+
+        background:transparent;
+
+        padding:3px 0 8px;
+
+        color:#000;
+
+        font-family:inherit;
+
+        font-size:13px;
+
+        font-weight:700;
+
+        cursor:pointer;
+
+        text-decoration:underline;
+
+    }
+
+
+    /* Show See more only on cards
+       that JavaScript marks as long */
+
+    .review-card.has-long-review
+    .see-more-review{
+
+        display:inline-block;
+
+    }
+
+}
