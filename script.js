@@ -324,9 +324,16 @@ function displayReviews(reviews){
                 ✓ Verified Rental
             </div>
 
-            <p>
-                ${escapeHTML(review.review)}
-            </p>
+           <p class="review-text review-text-collapsed">
+    ${escapeHTML(review.review)}
+</p>
+
+<button
+    type="button"
+    class="see-more-review"
+>
+    See more
+</button>
 
             <small>
                 ${date}
