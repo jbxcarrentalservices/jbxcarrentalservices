@@ -1636,3 +1636,25 @@ nav a{
     }
 
 }
+
+/* =================================
+   DESKTOP REVIEW TEXT
+================================= */
+
+@media(min-width:769px){
+
+    .review-text-collapsed{
+
+        display:block !important;
+
+        overflow:visible !important;
+
+    }
+
+    .see-more-review{
+
+        display:none !important;
+
+    }
+
+}
