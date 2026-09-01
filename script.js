@@ -341,20 +341,16 @@ function displayReviews(reviews){
         // MOBILE CSS WILL CAROUSEL
         // -------------------------
 
-        if(index < 6){
+      const card =
+    document.createElement("div");
 
-            const card =
-                document.createElement("div");
+card.className =
+    "review-card";
 
-            card.className =
-                "review-card";
+card.innerHTML =
+    reviewHTML;
 
-            card.innerHTML =
-                reviewHTML;
-
-            container.appendChild(card);
-
-        }
+container.appendChild(card);
 
 
         // -------------------------
