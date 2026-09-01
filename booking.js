@@ -1785,7 +1785,53 @@ if(sumTotal){
 }
 
 // -------------------------
-// PICKUP DATE MINIMUM
+// DATE LIMITS
+// -------------------------
+
+function getDateLimits(){
+
+    const today = new Date();
+
+    today.setHours(0, 0, 0, 0);
+
+    const maxDate = new Date(today);
+
+    maxDate.setFullYear(
+        maxDate.getFullYear() + 2
+    );
+
+    function formatDate(date){
+
+        const year =
+            date.getFullYear();
+
+        const month =
+            String(
+                date.getMonth() + 1
+            ).padStart(2, "0");
+
+        const day =
+            String(
+                date.getDate()
+            ).padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
+
+    }
+
+    return {
+
+        min: formatDate(today),
+
+        max: formatDate(maxDate)
+
+    };
+
+}
+
+
+// -------------------------
+// PICKUP DATE LIMITS
 // -------------------------
 
 function setPickupDateMin(){
@@ -1793,15 +1839,20 @@ function setPickupDateMin(){
     const pickupDate =
         document.getElementById("pickupDate");
 
-    const today =
-        new Date().toISOString().split("T")[0];
+    const limits =
+        getDateLimits();
 
-    pickupDate.min = today;
+    pickupDate.min =
+        limits.min;
+
+    pickupDate.max =
+        limits.max;
 
 }
 
+
 // -------------------------
-// RETURN DATE MINIMUM
+// RETURN DATE LIMITS
 // -------------------------
 
 function updateReturnDateMin(){
@@ -1812,12 +1863,43 @@ function updateReturnDateMin(){
     const returnDate =
         document.getElementById("returnDate");
 
-    if(!pickupDate) return;
+    const limits =
+        getDateLimits();
 
-    returnDate.min = pickupDate;
 
-    // Clear return date if it is earlier than pickup date
-    if(returnDate.value && returnDate.value < pickupDate){
+    // Always limit return date
+    // to 2 years from today
+
+    returnDate.max =
+        limits.max;
+
+
+    if(!pickupDate){
+
+        returnDate.min =
+            limits.min;
+
+        return;
+
+    }
+
+
+    // Return date cannot be
+    // earlier than pickup date
+
+    returnDate.min =
+        pickupDate;
+
+
+    // Clear invalid return date
+
+    if(
+        returnDate.value &&
+        (
+            returnDate.value < pickupDate ||
+            returnDate.value > limits.max
+        )
+    ){
 
         returnDate.value = "";
 
