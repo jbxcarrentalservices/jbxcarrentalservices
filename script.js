@@ -462,6 +462,8 @@ requestAnimationFrame(() => {
 
 });
 
+}
+
 /* UPDATE RATING SUMMARY */
 
 function updateReviewSummary(reviews){
