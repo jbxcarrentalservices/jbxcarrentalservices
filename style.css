@@ -1444,6 +1444,13 @@ nav a{
 
 }
 
+/* Hide mobile See More button on desktop */
+
+.see-more-review{
+
+    display:none;
+
+}
 
 /* ================================
    MOBILE REVIEW CAROUSEL
