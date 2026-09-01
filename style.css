@@ -1522,3 +1522,17 @@ nav a{
     }
 
 }
+
+/* =================================
+   DESKTOP: SHOW ONLY FIRST 6 REVIEWS
+================================= */
+
+@media(min-width:769px){
+
+    .review-grid .review-card:nth-child(n+7){
+
+        display:none;
+
+    }
+
+}
