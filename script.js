@@ -786,3 +786,88 @@ document.addEventListener(
 
     }
 );
+
+/* ================================
+   ALL REVIEWS MODAL
+================================ */
+
+const viewAllReviewsBtn =
+    document.getElementById(
+        "viewAllReviewsBtn"
+    );
+
+const allReviewsModal =
+    document.getElementById(
+        "allReviewsModal"
+    );
+
+const allReviewsClose =
+    document.querySelector(
+        ".all-reviews-close"
+    );
+
+
+if(viewAllReviewsBtn && allReviewsModal){
+
+    viewAllReviewsBtn.addEventListener(
+        "click",
+        function(){
+
+            allReviewsModal.style.display =
+                "flex";
+
+            allReviewsModal.setAttribute(
+                "aria-hidden",
+                "false"
+            );
+
+        }
+    );
+
+}
+
+
+function closeAllReviews(){
+
+    if(!allReviewsModal) return;
+
+    allReviewsModal.style.display =
+        "none";
+
+    allReviewsModal.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+}
+
+
+if(allReviewsClose){
+
+    allReviewsClose.addEventListener(
+        "click",
+        closeAllReviews
+    );
+
+}
+
+
+if(allReviewsModal){
+
+    allReviewsModal.addEventListener(
+        "click",
+        function(event){
+
+            if(
+                event.target ===
+                allReviewsModal
+            ){
+
+                closeAllReviews();
+
+            }
+
+        }
+    );
+
+}
